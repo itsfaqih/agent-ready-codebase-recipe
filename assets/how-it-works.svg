@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1126.5" width="900" height="1126.5" role="img" aria-labelledby="t d">
+<title id="t">What setup-agent-ready-codebase does, in three steps</title>
+<desc id="d">The problem: an agent can read your code and write tests, but many codebases lack a setup that lets it check a change reliably. Parallel work breaks, checks need a person, and a passing test can mean little. The fix: you run one command, and the skill looks at what your project has, asks which tools you want and how strict the checks should be, adds only what is missing, and looks again until nothing is left to add. It checks twelve areas: tools, parallel work, linting, tests, sign-in, flow tests, browser use, logging, pull request proof, lessons, test review and instructions file. The result: an agent can change code, run checks, capture proof and open a pull request, guided by a short instructions file (AGENTS.md or CLAUDE.md) that points to one guide per topic.</desc>
+<style>
+.pulse{fill:none;stroke:#171717;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:8 200;stroke-dashoffset:8;opacity:0;animation:run 4.2s linear infinite}
+@keyframes run{0%{stroke-dashoffset:8;opacity:0}2%{opacity:1}12%{opacity:1}16%{stroke-dashoffset:-34;opacity:0}100%{stroke-dashoffset:-34;opacity:0}}
+.live{animation:breathe 1.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.45}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.pulse{display:none}.live{animation:none}}
+@media (prefers-reduced-motion:no-preference){@keyframes kddd{0%,27%{opacity:1}31%,57%{opacity:1}61%,97%{opacity:1}100%{opacity:1}}.k-ddd{animation:kddd 10s linear infinite}@keyframes kdmd{0%,27%{opacity:0}31%,57%{opacity:1}61%,97%{opacity:1}100%{opacity:0}}.k-dmd{animation:kdmd 10s linear infinite}@keyframes kdmm{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:1}100%{opacity:0}}.k-dmm{animation:kdmm 10s linear infinite}@keyframes kdmp{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:1}100%{opacity:0}}.k-dmp{animation:kdmp 10s linear infinite}@keyframes kdpd{0%,27%{opacity:0}31%,57%{opacity:1}61%,97%{opacity:1}100%{opacity:0}}.k-dpd{animation:kdpd 10s linear infinite}@keyframes kdpp{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:1}100%{opacity:0}}.k-dpp{animation:kdpp 10s linear infinite}@keyframes kmdd{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-mdd{animation:kmdd 10s linear infinite}@keyframes kmmd{0%,27%{opacity:1}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:1}}.k-mmd{animation:kmmd 10s linear infinite}@keyframes kmmm{0%,27%{opacity:1}31%,57%{opacity:1}61%,97%{opacity:0}100%{opacity:1}}.k-mmm{animation:kmmm 10s linear infinite}@keyframes kmmp{0%,27%{opacity:1}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:1}}.k-mmp{animation:kmmp 10s linear infinite}@keyframes kmpd{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-mpd{animation:kmpd 10s linear infinite}@keyframes kmpp{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-mpp{animation:kmpp 10s linear infinite}@keyframes kpdd{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-pdd{animation:kpdd 10s linear infinite}@keyframes kpmd{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-pmd{animation:kpmd 10s linear infinite}@keyframes kpmm{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-pmm{animation:kpmm 10s linear infinite}@keyframes kpmp{0%,27%{opacity:0}31%,57%{opacity:1}61%,97%{opacity:0}100%{opacity:0}}.k-pmp{animation:kpmp 10s linear infinite}@keyframes kppd{0%,27%{opacity:1}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:1}}.k-ppd{animation:kppd 10s linear infinite}@keyframes kppp{0%,27%{opacity:1}31%,57%{opacity:1}61%,97%{opacity:0}100%{opacity:1}}.k-ppp{animation:kppp 10s linear infinite}@keyframes act1{0%,29%{opacity:1}33%,97%{opacity:0}100%{opacity:1}}@keyframes act2{0%,29%{opacity:0}33%,59%{opacity:1}63%,100%{opacity:0}}@keyframes act3{0%,59%{opacity:0}63%,97%{opacity:1}100%{opacity:0}}.a1{animation:act1 10s linear infinite}.a2{animation:act2 10s linear infinite}.a3{animation:act3 10s linear infinite}}</style>
+<defs>
+<symbol id="s-missing" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="6.5" fill="none" stroke="#A8A8A8" stroke-width="2" stroke-dasharray="3.6 3"/></symbol>
+<symbol id="s-partial" viewBox="0 0 22 22"><clipPath id="cp"><rect x="3.5" y="3.5" width="15" height="15" rx="4"/></clipPath><rect x="1" y="1" width="20" height="20" rx="6.5" fill="none" stroke="#F57C00" stroke-width="2"/><rect x="3.5" y="3.5" width="7.5" height="15" fill="#F57C00" clip-path="url(#cp)"/></symbol>
+<symbol id="s-done" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="6.5" fill="none" stroke="#2DBE4E" stroke-width="2"/><path d="M6.5 11.5l3.2 3.2 5.8-6.9" fill="none" stroke="#2DBE4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-code" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="6.5" fill="none" stroke="#171717" stroke-width="1.6"/><path d="M8.8 7.6L5.6 11l3.2 3.4M13.2 7.6l3.2 3.4-3.2 3.4" fill="none" stroke="#171717" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-run" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="6.5" fill="none" stroke="#171717" stroke-width="1.6"/><path d="M8.8 7.2v7.6l6.2-3.8z" fill="none" stroke="#171717" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+<symbol id="i-camera" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="6.5" fill="none" stroke="#171717" stroke-width="1.6"/><path d="M5.4 9.2a1.4 1.4 0 0 1 1.4-1.4h1.6l1-1.5h3.2l1 1.5h1.6a1.4 1.4 0 0 1 1.4 1.4v5.2a1.4 1.4 0 0 1-1.4 1.4H6.8a1.4 1.4 0 0 1-1.4-1.4z" fill="none" stroke="#171717" stroke-width="1.6" stroke-linejoin="round"/><circle cx="11" cy="11.7" r="2.1" fill="none" stroke="#171717" stroke-width="1.6"/></symbol>
+<symbol id="i-pr" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="6.5" fill="none" stroke="#171717" stroke-width="1.6"/><circle cx="7.6" cy="6.9" r="1.5" fill="none" stroke="#171717" stroke-width="1.5"/><circle cx="7.6" cy="15.1" r="1.5" fill="none" stroke="#171717" stroke-width="1.5"/><circle cx="14.4" cy="15.1" r="1.5" fill="none" stroke="#171717" stroke-width="1.5"/><path d="M7.6 8.4v5.2M14.4 13.6V9.4a1.7 1.7 0 0 0-1.7-1.7h-2.1M11.8 6.2l-1.4 1.5 1.4 1.5" fill="none" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs>
+<rect x=".5" y=".5" width="899" height="1125.5" rx="14" fill="#fafafa" stroke="#e5e5e5"/>
+<text x="28" y="40" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="9" font-weight="400" fill="#8f8f8f" text-anchor="start" letter-spacing="0.9">THE PROBLEM</text>
+<text x="28" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.36">An agent can write the change. Many codebases can't check it without you</text>
+<text x="28" y="83" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#525252" text-anchor="start">Agents can read your code and write tests. What many projects lack is a setup that makes running them reliable.</text>
+<rect x="28.5" y="98.5" width="267" height="102.5" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<use href="#s-missing" x="44" y="114" width="22" height="22"/>
+<text x="78" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Parallel work breaks</text>
+<text x="78" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Run two agents at once and they</text>
+<text x="78" y="170.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">fight over ports, files and one shared</text>
+<text x="78" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">local database.</text>
+<rect x="316.5" y="98.5" width="267" height="102.5" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<use href="#s-missing" x="332" y="114" width="22" height="22"/>
+<text x="366" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Checks need a person</text>
+<text x="366" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Tests that need a live database, a</text>
+<text x="366" y="170.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">real account or a sign-in the agent</text>
+<text x="366" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">can't complete only run for a human.</text>
+<rect x="604.5" y="98.5" width="267" height="102.5" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<use href="#s-missing" x="620" y="114" width="22" height="22"/>
+<text x="654" y="130" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">A pass can mean little</text>
+<text x="654" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Agent-written tests can pass on</text>
+<text x="654" y="170.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">broken code by only checking their</text>
+<text x="654" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">own mocks.</text>
+<path d="M28 223.5H872" stroke="#e5e5e5" fill="none"/>
+<text x="28" y="251.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="9" font-weight="400" fill="#8f8f8f" text-anchor="start" letter-spacing="0.9">THE FIX</text>
+<text x="28" y="273.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.36">You run one command</text>
+<text x="28" y="294.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#525252" text-anchor="start">A skill your coding agent follows. It builds the missing setup, then writes down how to use it.</text>
+<rect x="28" y="307.5" width="188" height="26" rx="7" fill="#171717"/>
+<text x="122" y="324.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="9.6" font-weight="400" fill="#fff" text-anchor="middle">/setup-agent-ready-codebase</text>
+<text x="232" y="324.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Type it once, in the project you want to set up.</text>
+<rect x="28.5" y="352" width="267" height="94.5" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<rect class="act a1" x="28.5" y="352" width="267" height="94.5" rx="8" fill="none" stroke="#171717" stroke-width="1.5" opacity="0"/>
+<text x="44" y="377.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="400" fill="#8f8f8f" text-anchor="start">1</text>
+<text x="60" y="378.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Look</text>
+<text x="60" y="399.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Checks your project against the 12</text>
+<text x="60" y="414" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">areas below. Marks each one done,</text>
+<text x="60" y="428.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">partly done or missing.</text>
+<rect x="316.5" y="352" width="267" height="94.5" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<rect class="act a2" x="316.5" y="352" width="267" height="94.5" rx="8" fill="none" stroke="#171717" stroke-width="1.5" opacity="0"/>
+<text x="332" y="377.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="400" fill="#8f8f8f" text-anchor="start">2</text>
+<text x="348" y="378.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Add what's missing</text>
+<text x="348" y="399.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Asks which tools you want and how</text>
+<text x="348" y="414" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">strict to be. Builds what's missing,</text>
+<text x="348" y="428.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">keeps what you have.</text>
+<rect x="604.5" y="352" width="267" height="94.5" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<rect class="act a3" x="604.5" y="352" width="267" height="94.5" rx="8" fill="none" stroke="#171717" stroke-width="1.5" opacity="0"/>
+<text x="620" y="377.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="400" fill="#8f8f8f" text-anchor="start">3</text>
+<text x="636" y="378.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Look again</text>
+<text x="636" y="399.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Checks again. If it finds nothing</text>
+<text x="636" y="414" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">left to add, it stops.</text>
+<path d="M300 397.5H312M307.5 394L312 397.5L307.5 401" fill="none" stroke="#d4d4d4" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="pulse" style="animation-delay:0.0s" d="M300 397.5H312"/>
+<path d="M588 397.5H600M595.5 394L600 397.5L595.5 401" fill="none" stroke="#d4d4d4" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="pulse" style="animation-delay:0.7s" d="M588 397.5H600"/>
+<rect x="28.5" y="463.5" width="843" height="171" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<text x="44" y="487" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="9" font-weight="400" fill="#8f8f8f" text-anchor="start" letter-spacing="0.9">THE 12 AREAS IT CHECKS</text>
+<use href="#s-missing" x="44.0" y="503" width="20" height="20" class="k-mdd" opacity="0"/>
+<use href="#s-partial" x="44.0" y="503" width="20" height="20" class="k-pdd" opacity="0"/>
+<use href="#s-done" x="44.0" y="503" width="20" height="20" class="k-ddd" opacity="1"/>
+<text x="74.0" y="513" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Tools</text>
+<text x="74.0" y="528" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">You pick one per job</text>
+<use href="#s-missing" x="247.0" y="503" width="20" height="20" class="k-mdd" opacity="0"/>
+<use href="#s-partial" x="247.0" y="503" width="20" height="20" class="k-pdd" opacity="0"/>
+<use href="#s-done" x="247.0" y="503" width="20" height="20" class="k-ddd" opacity="1"/>
+<text x="277.0" y="513" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Parallel work</text>
+<text x="277.0" y="528" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Copies don't clash</text>
+<use href="#s-missing" x="450.0" y="503" width="20" height="20" class="k-mpd" opacity="0"/>
+<use href="#s-partial" x="450.0" y="503" width="20" height="20" class="k-ppd" opacity="1"/>
+<use href="#s-done" x="450.0" y="503" width="20" height="20" class="k-dpd" opacity="0"/>
+<text x="480.0" y="513" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Linting</text>
+<text x="480.0" y="528" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Strict rules per file type</text>
+<use href="#s-missing" x="653.0" y="503" width="20" height="20" class="k-mmd" opacity="1"/>
+<use href="#s-partial" x="653.0" y="503" width="20" height="20" class="k-pmd" opacity="0"/>
+<use href="#s-done" x="653.0" y="503" width="20" height="20" class="k-dmd" opacity="0"/>
+<text x="683.0" y="513" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Tests</text>
+<text x="683.0" y="528" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Start their own services</text>
+<use href="#s-missing" x="44.0" y="547" width="20" height="20" class="k-mpd" opacity="0"/>
+<use href="#s-partial" x="44.0" y="547" width="20" height="20" class="k-ppd" opacity="1"/>
+<use href="#s-done" x="44.0" y="547" width="20" height="20" class="k-dpd" opacity="0"/>
+<text x="74.0" y="557" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Sign-in</text>
+<text x="74.0" y="572" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Test users, no real accounts</text>
+<use href="#s-missing" x="247.0" y="547" width="20" height="20" class="k-mmd" opacity="1"/>
+<use href="#s-partial" x="247.0" y="547" width="20" height="20" class="k-pmd" opacity="0"/>
+<use href="#s-done" x="247.0" y="547" width="20" height="20" class="k-dmd" opacity="0"/>
+<text x="277.0" y="557" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Flow tests</text>
+<text x="277.0" y="572" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Every user flow, end to end</text>
+<use href="#s-missing" x="450.0" y="547" width="20" height="20" class="k-mmd" opacity="1"/>
+<use href="#s-partial" x="450.0" y="547" width="20" height="20" class="k-pmd" opacity="0"/>
+<use href="#s-done" x="450.0" y="547" width="20" height="20" class="k-dmd" opacity="0"/>
+<text x="480.0" y="557" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Browser use</text>
+<text x="480.0" y="572" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Agent can drive the app</text>
+<use href="#s-missing" x="653.0" y="547" width="20" height="20" class="k-mmp" opacity="1"/>
+<use href="#s-partial" x="653.0" y="547" width="20" height="20" class="k-pmp" opacity="0"/>
+<use href="#s-done" x="653.0" y="547" width="20" height="20" class="k-dmp" opacity="0"/>
+<text x="683.0" y="557" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Logging</text>
+<text x="683.0" y="572" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Queryable request logs</text>
+<use href="#s-missing" x="44.0" y="591" width="20" height="20" class="k-mpp" opacity="0"/>
+<use href="#s-partial" x="44.0" y="591" width="20" height="20" class="k-ppp" opacity="1"/>
+<use href="#s-done" x="44.0" y="591" width="20" height="20" class="k-dpp" opacity="0"/>
+<text x="74.0" y="601" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">PR proof</text>
+<text x="74.0" y="616" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Annotated screenshots</text>
+<use href="#s-missing" x="247.0" y="591" width="20" height="20" class="k-mmm" opacity="1"/>
+<use href="#s-partial" x="247.0" y="591" width="20" height="20" class="k-pmm" opacity="0"/>
+<use href="#s-done" x="247.0" y="591" width="20" height="20" class="k-dmm" opacity="0"/>
+<text x="277.0" y="601" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Lessons</text>
+<text x="277.0" y="616" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Repeat mistakes become rules</text>
+<use href="#s-missing" x="450.0" y="591" width="20" height="20" class="k-mmm" opacity="1"/>
+<use href="#s-partial" x="450.0" y="591" width="20" height="20" class="k-pmm" opacity="0"/>
+<use href="#s-done" x="450.0" y="591" width="20" height="20" class="k-dmm" opacity="0"/>
+<text x="480.0" y="601" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Test review</text>
+<text x="480.0" y="616" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Checks that can truly fail</text>
+<use href="#s-missing" x="653.0" y="591" width="20" height="20" class="k-mmm" opacity="1"/>
+<use href="#s-partial" x="653.0" y="591" width="20" height="20" class="k-pmm" opacity="0"/>
+<use href="#s-done" x="653.0" y="591" width="20" height="20" class="k-dmm" opacity="0"/>
+<text x="683.0" y="601" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Instructions</text>
+<text x="683.0" y="616" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Tells agents where to look</text>
+<use href="#s-done" x="28" y="651" width="14" height="14"/>
+<text x="48" y="662" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" fill="#525252" text-anchor="start">done</text>
+<use href="#s-partial" x="94" y="651" width="14" height="14"/>
+<text x="114" y="662" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" fill="#525252" text-anchor="start">partly done</text>
+<use href="#s-missing" x="194" y="651" width="14" height="14"/>
+<text x="214" y="662" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" fill="#525252" text-anchor="start">missing</text>
+<text x="872" y="662" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="500" fill="#171717" text-anchor="end">Run it again on a finished project and it changes nothing.</text>
+<path d="M28 687H872" stroke="#e5e5e5" fill="none"/>
+<text x="28" y="715" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="9" font-weight="400" fill="#8f8f8f" text-anchor="start" letter-spacing="0.9">THE RESULT</text>
+<text x="28" y="737" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.36">Now an agent can change code and prove it works</text>
+<text x="28" y="758" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#525252" text-anchor="start">Every check is a command with the same verdict on every run, and a short file tells the agent which to run.</text>
+<rect x="28.5" y="775.5" width="843" height="40" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<use href="#i-code" x="44" y="785.5" width="20" height="20"/>
+<text x="76" y="800" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Change the code</text>
+<text x="232" y="800" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Works in its own copy of the project, with its own ports.</text>
+<path d="M54 817.5V825.5M50.5 821L54 825.5L57.5 821" fill="none" stroke="#d4d4d4" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="pulse" style="animation-delay:1.4s" d="M54 817.5V825.5"/>
+<rect x="28.5" y="827.5" width="843" height="40" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<use href="#i-run" x="44" y="837.5" width="20" height="20"/>
+<text x="76" y="852" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Run the checks</text>
+<text x="232" y="852" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Lint for each file type, unit and integration tests, and e2e flows.</text>
+<path d="M54 869.5V877.5M50.5 873L54 877.5L57.5 873" fill="none" stroke="#d4d4d4" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="pulse" style="animation-delay:2.1s" d="M54 869.5V877.5"/>
+<rect x="28.5" y="879.5" width="843" height="40" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<use href="#i-camera" x="44" y="889.5" width="20" height="20"/>
+<text x="76" y="904" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Capture proof</text>
+<text x="232" y="904" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">A screenshot per step, and a video for live interactions, annotated for review.</text>
+<path d="M54 921.5V929.5M50.5 925L54 929.5L57.5 925" fill="none" stroke="#d4d4d4" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="pulse" style="animation-delay:2.8s" d="M54 921.5V929.5"/>
+<rect x="28.5" y="931.5" width="843" height="40" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<use href="#i-pr" x="44" y="941.5" width="20" height="20"/>
+<text x="76" y="956" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Open a pull request</text>
+<text x="232" y="956" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">With the proof attached, so a reviewer can see it working.</text>
+<rect x="28.5" y="992.5" width="843" height="109.5" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
+<text x="44" y="1018" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Instructions file</text>
+<text x="44" y="1038" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Your AGENTS.md or CLAUDE.md. It tells an agent how things work</text>
+<text x="44" y="1052.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">here, and which guide to read for which task, so it loads only</text>
+<text x="44" y="1067" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">what the task needs.</text>
+<path d="M484 1006V1078" stroke="#e5e5e5" fill="none"/>
+<text x="504" y="1016" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="8.5" font-weight="400" fill="#8f8f8f" text-anchor="start" letter-spacing="0.8">WHEN THE TASK IS</text>
+<text x="514" y="1038" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">writing a test</text>
+<text x="632" y="1038" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="10.5" font-weight="400" fill="#8f8f8f" text-anchor="start">→ testing.md</text>
+<text x="514" y="1060" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">adding a port</text>
+<text x="632" y="1060" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="10.5" font-weight="400" fill="#8f8f8f" text-anchor="start">→ worktrees.md</text>
+<rect x="496" y="1068" width="366" height="22" rx="5" fill="#f2f2f2"/>
+<rect x="502" y="1075" width="5" height="5" fill="#171717"/>
+<text x="514" y="1082" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="600" fill="#171717" text-anchor="start">adding a log line</text>
+<text x="632" y="1082" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="10.5" font-weight="400" fill="#171717" text-anchor="start">→ observability.md</text>
+</svg>

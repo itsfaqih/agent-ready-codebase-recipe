@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-labelledby="t d">
+<title id="t">agent-ready-codebase-recipe</title>
+<desc id="d">An agent skill that sets up a codebase so any agent can change code and prove it works. Twelve areas move from missing to done.</desc>
+<style>@media (prefers-reduced-motion:no-preference){@keyframes kddd{0%,27%{opacity:1}31%,57%{opacity:1}61%,97%{opacity:1}100%{opacity:1}}.k-ddd{animation:kddd 9s linear infinite}@keyframes kdmd{0%,27%{opacity:0}31%,57%{opacity:1}61%,97%{opacity:1}100%{opacity:0}}.k-dmd{animation:kdmd 9s linear infinite}@keyframes kdmm{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:1}100%{opacity:0}}.k-dmm{animation:kdmm 9s linear infinite}@keyframes kdmp{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:1}100%{opacity:0}}.k-dmp{animation:kdmp 9s linear infinite}@keyframes kdpd{0%,27%{opacity:0}31%,57%{opacity:1}61%,97%{opacity:1}100%{opacity:0}}.k-dpd{animation:kdpd 9s linear infinite}@keyframes kdpp{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:1}100%{opacity:0}}.k-dpp{animation:kdpp 9s linear infinite}@keyframes kmdd{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-mdd{animation:kmdd 9s linear infinite}@keyframes kmmd{0%,27%{opacity:1}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:1}}.k-mmd{animation:kmmd 9s linear infinite}@keyframes kmmm{0%,27%{opacity:1}31%,57%{opacity:1}61%,97%{opacity:0}100%{opacity:1}}.k-mmm{animation:kmmm 9s linear infinite}@keyframes kmmp{0%,27%{opacity:1}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:1}}.k-mmp{animation:kmmp 9s linear infinite}@keyframes kmpd{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-mpd{animation:kmpd 9s linear infinite}@keyframes kmpp{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-mpp{animation:kmpp 9s linear infinite}@keyframes kpdd{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-pdd{animation:kpdd 9s linear infinite}@keyframes kpmd{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-pmd{animation:kpmd 9s linear infinite}@keyframes kpmm{0%,27%{opacity:0}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:0}}.k-pmm{animation:kpmm 9s linear infinite}@keyframes kpmp{0%,27%{opacity:0}31%,57%{opacity:1}61%,97%{opacity:0}100%{opacity:0}}.k-pmp{animation:kpmp 9s linear infinite}@keyframes kppd{0%,27%{opacity:1}31%,57%{opacity:0}61%,97%{opacity:0}100%{opacity:1}}.k-ppd{animation:kppd 9s linear infinite}@keyframes kppp{0%,27%{opacity:1}31%,57%{opacity:1}61%,97%{opacity:0}100%{opacity:1}}.k-ppp{animation:kppp 9s linear infinite}}</style><defs><symbol id="s-missing" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="6.5" fill="none" stroke="#A8A8A8" stroke-width="2" stroke-dasharray="3.6 3"/></symbol><symbol id="s-partial" viewBox="0 0 22 22"><clipPath id="cp"><rect x="3.5" y="3.5" width="15" height="15" rx="4"/></clipPath><rect x="1" y="1" width="20" height="20" rx="6.5" fill="none" stroke="#F57C00" stroke-width="2"/><rect x="3.5" y="3.5" width="7.5" height="15" fill="#F57C00" clip-path="url(#cp)"/></symbol><symbol id="s-done" viewBox="0 0 22 22"><rect x="1" y="1" width="20" height="20" rx="6.5" fill="none" stroke="#2DBE4E" stroke-width="2"/><path d="M6.5 11.5l3.2 3.2 5.8-6.9" fill="none" stroke="#2DBE4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol></defs>
+<rect x=".5" y=".5" width="1199" height="299" rx="14" fill="#fafafa" stroke="#e5e5e5"/>
+<text x="56" y="62" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="#8f8f8f" text-anchor="start" letter-spacing="1.8">AGENT SKILL</text>
+<text x="56" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="700" fill="#171717" text-anchor="start" letter-spacing="-1">Set up a codebase so any agent</text>
+<text x="56" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="700" fill="#171717" text-anchor="start" letter-spacing="-1">can change code and prove it works</text>
+<text x="56" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="400" fill="#525252" text-anchor="start">One command. Asks which tools you want, adds only what is missing.</text>
+<rect x="56" y="226" width="296" height="38" rx="9" fill="#171717"/>
+<text x="204" y="251" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="14.5" font-weight="400" fill="#fff" text-anchor="middle">/setup-agent-ready-codebase</text>
+<path d="M766 48V252" stroke="#e5e5e5"/>
+<use href="#s-missing" x="836" y="58" width="44" height="44" class="k-mdd" opacity="0"/>
+<use href="#s-partial" x="836" y="58" width="44" height="44" class="k-pdd" opacity="0"/>
+<use href="#s-done" x="836" y="58" width="44" height="44" class="k-ddd" opacity="1"/>
+<use href="#s-missing" x="900" y="58" width="44" height="44" class="k-mdd" opacity="0"/>
+<use href="#s-partial" x="900" y="58" width="44" height="44" class="k-pdd" opacity="0"/>
+<use href="#s-done" x="900" y="58" width="44" height="44" class="k-ddd" opacity="1"/>
+<use href="#s-missing" x="964" y="58" width="44" height="44" class="k-mpd" opacity="0"/>
+<use href="#s-partial" x="964" y="58" width="44" height="44" class="k-ppd" opacity="1"/>
+<use href="#s-done" x="964" y="58" width="44" height="44" class="k-dpd" opacity="0"/>
+<use href="#s-missing" x="1028" y="58" width="44" height="44" class="k-mmd" opacity="1"/>
+<use href="#s-partial" x="1028" y="58" width="44" height="44" class="k-pmd" opacity="0"/>
+<use href="#s-done" x="1028" y="58" width="44" height="44" class="k-dmd" opacity="0"/>
+<use href="#s-missing" x="836" y="122" width="44" height="44" class="k-mpd" opacity="0"/>
+<use href="#s-partial" x="836" y="122" width="44" height="44" class="k-ppd" opacity="1"/>
+<use href="#s-done" x="836" y="122" width="44" height="44" class="k-dpd" opacity="0"/>
+<use href="#s-missing" x="900" y="122" width="44" height="44" class="k-mmd" opacity="1"/>
+<use href="#s-partial" x="900" y="122" width="44" height="44" class="k-pmd" opacity="0"/>
+<use href="#s-done" x="900" y="122" width="44" height="44" class="k-dmd" opacity="0"/>
+<use href="#s-missing" x="964" y="122" width="44" height="44" class="k-mmd" opacity="1"/>
+<use href="#s-partial" x="964" y="122" width="44" height="44" class="k-pmd" opacity="0"/>
+<use href="#s-done" x="964" y="122" width="44" height="44" class="k-dmd" opacity="0"/>
+<use href="#s-missing" x="1028" y="122" width="44" height="44" class="k-mmp" opacity="1"/>
+<use href="#s-partial" x="1028" y="122" width="44" height="44" class="k-pmp" opacity="0"/>
+<use href="#s-done" x="1028" y="122" width="44" height="44" class="k-dmp" opacity="0"/>
+<use href="#s-missing" x="836" y="186" width="44" height="44" class="k-mpp" opacity="0"/>
+<use href="#s-partial" x="836" y="186" width="44" height="44" class="k-ppp" opacity="1"/>
+<use href="#s-done" x="836" y="186" width="44" height="44" class="k-dpp" opacity="0"/>
+<use href="#s-missing" x="900" y="186" width="44" height="44" class="k-mmm" opacity="1"/>
+<use href="#s-partial" x="900" y="186" width="44" height="44" class="k-pmm" opacity="0"/>
+<use href="#s-done" x="900" y="186" width="44" height="44" class="k-dmm" opacity="0"/>
+<use href="#s-missing" x="964" y="186" width="44" height="44" class="k-mmm" opacity="1"/>
+<use href="#s-partial" x="964" y="186" width="44" height="44" class="k-pmm" opacity="0"/>
+<use href="#s-done" x="964" y="186" width="44" height="44" class="k-dmm" opacity="0"/>
+<use href="#s-missing" x="1028" y="186" width="44" height="44" class="k-mmm" opacity="1"/>
+<use href="#s-partial" x="1028" y="186" width="44" height="44" class="k-pmm" opacity="0"/>
+<use href="#s-done" x="1028" y="186" width="44" height="44" class="k-dmm" opacity="0"/>
+<text x="836" y="262" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="#8f8f8f" text-anchor="start" letter-spacing="0.4">12 areas, from missing to done</text>
+</svg>
