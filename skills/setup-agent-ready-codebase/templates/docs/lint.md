@@ -1,12 +1,12 @@
 # Lint
 
-Every file type in the repo has a check script, `lint:<type>` (`lint:ts`, `lint:sh`, `lint:yaml`), that exits non-zero on any finding (warnings fail), and a fix script, `lint:<type>:fix`, that runs its autofixer.
+Each lint tool has one check script, `lint:<name>`, that runs it once over the whole repo and exits non-zero on any finding (warnings fail), plus a fix script, `lint:<name>:fix`, when the tool has an autofixer. The script count follows the tools, not the file types: a formatter that reads YAML, Markdown, JSON, and CSS is one `lint:format` (`<formatter> --check .`) and one `lint:format:fix` (`<formatter> .`). Tools that own the same language may share a script (`lint:ts` runs the type checker and the linter), and each tool still appears in exactly one check script. A check-only tool (`lint:workflow`) has no fix script. `lint` runs every check script and `lint:fix` every fix script.
 
-After each batch of edits, run the check for every file type you touched, before running tests.
+After each batch of edits, run `lint`, or the check script of each tool that reads the files you touched, before running tests.
 
 ## Coverage
 
-Each file type has one linter, one formatter, and (for typed languages) one type checker, recorded in `docs/stack.md`. A file type with no tool gets one, and its two scripts, when it is added to the repo, including the easy-to-forget ones: shell scripts, Dockerfiles, CI workflows, SQL, Markdown.
+Coverage is exhaustive: every file type in the repo is read by the tool of some check script. Each type has one linter, one formatter, and (for typed languages) one type checker, recorded in `docs/stack.md`. When a file type is added to the repo, including the easy-to-forget ones (shell scripts, Dockerfiles, CI workflows, SQL, Markdown), widen the scope of a tool that already reads it, or add the tool that does with its own `lint:<name>` and, if it fixes, `lint:<name>:fix`.
 
 ## Findings
 

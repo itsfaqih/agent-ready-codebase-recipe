@@ -13,7 +13,7 @@ Skip a row whose job the project does not have (no UI, no server, no infrastruct
 | Interactive UI primitives | Base UI, React Aria | unstyled and accessible, so the project's styles apply |
 | Infrastructure as code | the project's own; OpenTofu, Alchemy (TypeScript, infrastructure as Effect programs), Pulumi, AWS CDK | declarative, with a plan step and a large provider set |
 | Linter | TS/JS: Oxlint or ESLint, Biome; Python: ruff; Go: golangci-lint; Rust: clippy; Shell: shellcheck; Dockerfile: hadolint; GitHub Actions: actionlint | type-aware rules, fast enough to run after every batch of edits |
-| Formatter | TS/JS: Oxfmt, Prettier, Biome; Python: ruff format; Go: gofmt; Rust: rustfmt; Shell: shfmt | one canonical layout, run in check mode by the file type's lint check |
+| Formatter | TS/JS: Oxfmt, Prettier, Biome; Python: ruff format; Go: gofmt; Rust: rustfmt; Shell: shfmt | one canonical layout, run in check mode once over every file type it reads, by its one lint check |
 | Type checker | TS: tsc or tsrs; Python: pyright or mypy; Go and Rust: the compiler | the language's reference checker, or a faster port of it |
 | Schema validation at boundaries | TS: Zod, Valibot, Effect Schema (Effect v4); Python: pydantic; Go: struct tags with a validator | decodes and types in one step |
 | Utility library (TypeScript only) | the project's own; Effect v4 | typed errors, dependency injection, retries and concurrency in one library |

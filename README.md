@@ -30,7 +30,7 @@ Then run `/setup-agent-ready-codebase` in the project to set up. On a project th
 Each project gets the jobs below that fit it, each done by a tool you chose:
 
 - Parallel worktrees that do not collide on ports, installs, containers or files
-- Lint checks for every file type in the repo, with rules that catch unsafe types and weak tests
+- Lint checks that read every file type in the repo, one script per tool, with rules that catch unsafe types and weak tests
 - Stricter compiler settings and lint rules that reject code the checker cannot verify, each one only if you accept it
 - Unit and integration tests that start their own dependencies, so a fresh clone with only Docker passes
 - Substitutes for outside services, so tests and agents never touch a real account
