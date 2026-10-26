@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1126.5" width="900" height="1126.5" role="img" aria-labelledby="t d">
 <title id="t">What setup-agent-ready-codebase does, in three steps</title>
-<desc id="d">The problem: an agent can read your code and write tests, but many codebases lack a setup that lets it check a change reliably. Parallel work breaks, checks need a person, and a passing test can mean little. The fix: you run one command, and the skill looks at what your project has, asks which tools you want and how strict the checks should be, adds only what is missing, and looks again until nothing is left to add. It checks twelve areas: tools, parallel work, linting, tests, sign-in, flow tests, browser use, logging, pull request proof, lessons, test review and instructions file. The result: an agent can change code, run checks, capture proof and open a pull request, guided by a short instructions file (AGENTS.md or CLAUDE.md) that points to one guide per topic.</desc>
+<desc id="d">The problem: an agent can read your code and write tests, but many codebases lack a setup that lets it check a change reliably. Parallel work breaks, checks need a person, and a passing test can mean little. The fix: you run one command, and the skill learns what your project is and what it needs, asks which tools you want and how strict the checks should be, adds only what is missing, and looks again until nothing is left to add. It checks twelve areas: tools, parallel work, linting, tests, sign-in, flow or component tests, browser use, logging, pull request proof, lessons, test review and instructions file. The result: an agent can change code, run checks, capture proof and open a pull request, guided by a short instructions file (AGENTS.md or CLAUDE.md) that points to one guide per topic.</desc>
 <style>
 .pulse{fill:none;stroke:#171717;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:8 200;stroke-dashoffset:8;opacity:0;animation:run 4.2s linear infinite}
 @keyframes run{0%{stroke-dashoffset:8;opacity:0}2%{opacity:1}12%{opacity:1}16%{stroke-dashoffset:-34;opacity:0}100%{stroke-dashoffset:-34;opacity:0}}
@@ -50,9 +50,9 @@
 <rect class="act a1" x="28.5" y="352" width="267" height="94.5" rx="8" fill="none" stroke="#171717" stroke-width="1.5" opacity="0"/>
 <text x="44" y="377.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="400" fill="#8f8f8f" text-anchor="start">1</text>
 <text x="60" y="378.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Look</text>
-<text x="60" y="399.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Checks your project against the 12</text>
-<text x="60" y="414" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">areas below. Marks each one done,</text>
-<text x="60" y="428.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">partly done or missing.</text>
+<text x="60" y="399.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Learns what your project needs,</text>
+<text x="60" y="414" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">then marks each of the 12 areas</text>
+<text x="60" y="428.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">below done, partly done or missing.</text>
 <rect x="316.5" y="352" width="267" height="94.5" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
 <rect class="act a2" x="316.5" y="352" width="267" height="94.5" rx="8" fill="none" stroke="#171717" stroke-width="1.5" opacity="0"/>
 <text x="332" y="377.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="400" fill="#8f8f8f" text-anchor="start">2</text>
@@ -101,7 +101,7 @@
 <use href="#s-partial" x="247.0" y="547" width="20" height="20" class="k-pmd" opacity="0"/>
 <use href="#s-done" x="247.0" y="547" width="20" height="20" class="k-dmd" opacity="0"/>
 <text x="277.0" y="557" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Flow tests</text>
-<text x="277.0" y="572" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">Every user flow, end to end</text>
+<text x="277.0" y="572" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#525252" text-anchor="start">E2E flows or component tests</text>
 <use href="#s-missing" x="450.0" y="547" width="20" height="20" class="k-mmd" opacity="1"/>
 <use href="#s-partial" x="450.0" y="547" width="20" height="20" class="k-pmd" opacity="0"/>
 <use href="#s-done" x="450.0" y="547" width="20" height="20" class="k-dmd" opacity="0"/>
@@ -152,7 +152,7 @@
 <rect x="28.5" y="827.5" width="843" height="40" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
 <use href="#i-run" x="44" y="837.5" width="20" height="20"/>
 <text x="76" y="852" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#171717" text-anchor="start" letter-spacing="-0.1">Run the checks</text>
-<text x="232" y="852" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Lint for each file type, unit and integration tests, and e2e flows.</text>
+<text x="232" y="852" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11.5" font-weight="400" fill="#525252" text-anchor="start">Lint for each file type, unit and integration tests, and e2e or component tests.</text>
 <path d="M54 869.5V877.5M50.5 873L54 877.5L57.5 873" fill="none" stroke="#d4d4d4" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <path class="pulse" style="animation-delay:2.1s" d="M54 869.5V877.5"/>
 <rect x="28.5" y="879.5" width="843" height="40" rx="8" fill="#ffffff" stroke="#e5e5e5"/>
