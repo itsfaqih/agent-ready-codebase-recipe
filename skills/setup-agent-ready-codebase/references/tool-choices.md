@@ -29,7 +29,8 @@ Skip a row whose job the project does not have (no UI, no server, no infrastruct
 | Log store and viewer | VictoriaLogs, Grafana with Loki | a query API an agent can call, and a local stack that runs in Compose |
 | Product analytics | Umami, Plausible | self-hostable and cookieless |
 | PR descriptions and evidence | the GitHub CLI (`gh`, 2.101 or later) | `gh pr create` and `gh pr edit` take `--attach <path>`, upload the file, and rewrite its local reference to the hosted URL |
-| Mutation testing (optional) | StrykerJS, mutmut, PIT, cargo-mutants | automates the red check across a whole suite |
+| Property-based testing | fast-check (TS/JS), Hypothesis (Python), rapid (Go), proptest (Rust) | generates and shrinks inputs, so invariants are checked beyond hand-picked examples |
+| Mutation testing | StrykerJS, mutmut, PIT, cargo-mutants | automates the red check across a whole suite |
 | Pre-commit hooks (optional) | lefthook, husky | staged-file lint before each commit |
 
 ## Strictness

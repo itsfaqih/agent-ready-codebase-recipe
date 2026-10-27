@@ -4,6 +4,19 @@ The test runner in `docs/stack.md` runs unit and integration tests as two projec
 
 A **unit test** covers pure logic with no I/O. An **integration test** drives a module through its public seam (an HTTP handler, a service function, a queue consumer) with its real collaborators running, and asserts on what the outside world can observe afterwards: the response, the row, the stored object, the message on the queue. Dependencies come from `docs/hermetic-dependencies.md`. Every new test also passes `docs/falsifiable-tests.md`.
 
+## Test behavior from the outside
+
+A test calls the module's public API (the seam) and asserts what its caller observes, so a refactor that keeps behavior leaves every test green. Private helpers, internal call order, and your own collaborators are exercised through the seam and left unasserted. Name each test for a behavior the caller sees (`rejects an expired invite`), not for a function. Where the module serves a user, the assertion is what that user would see: the response the client renders, the email that arrives, the row the next page reads.
+
+## Find missing tests
+
+Run each of these over the code you changed, once its tests pass, using the tools in `docs/stack.md`:
+
+- **Mutation tester**: each surviving mutant is a behavior no test pins. Add a test that kills it, or record the mutant as equivalent (no observable change).
+- **Property-based tests**: for pure logic with an invariant (round trip, idempotence, ordering, bounds), state the invariant over generated inputs. A failing run's shrunk counterexample becomes a literal example test beside the property.
+
+Done when no mutant survives unexplained and each property passes the library's default number of runs.
+
 ## Writing an integration test
 
 1. **Map the I/O.** List every module that crosses a process boundary (DB queries, HTTP clients, SDK calls, queue producers and consumers, file storage). For each, list the branches it handles: success, not found, conflict, timeout, a reply that fails its schema. Destructive, sync, and identity operations also get their boundary cases: stale state, a concurrent change from another client, a retry after a lost response, a caller who doesn't own the record, and an oversized batch. Every boundary-crossing module has a row with its branches.

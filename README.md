@@ -33,6 +33,7 @@ Each project gets the jobs below that fit it, each done by a tool you chose:
 - Lint checks that read every file type in the repo, one script per tool, with rules that catch unsafe types and weak tests
 - Stricter compiler settings and lint rules that reject code the checker cannot verify, each one only if you accept it
 - Unit and integration tests that start their own dependencies, so a fresh clone with only Docker passes
+- Mutation and property-based tests that find the tests still missing
 - Substitutes for outside services, so tests and agents never touch a real account
 - Seeded users and no blockers, so an agent reaches every screen as every role
 - End-to-end tests that save a screenshot per step, and a video when a live interaction needs one, or component tests for a component library
@@ -58,9 +59,9 @@ The instructions file holds one pointer per installed doc, each saying when to r
 | `worktrees.md` | you add a port, path, compose service, migration or env var |
 | `lint.md` | you add a file type or hit a lint finding |
 | `boundaries.md` | you handle input from outside the program or branch on a union |
-| `testing.md` | you write or change a unit or integration test |
+| `testing.md` | you write or change a unit or integration test, or look for missing tests |
 | `hermetic-dependencies.md` | a test needs a database, queue, cloud service or third-party API |
-| `falsifiable-tests.md` | you write, fix or review any test |
+| `falsifiable-tests.md` | you write or review any test, or fix a bug |
 | `agent-access.md` | you add auth, a provider, a verification step or a seeded user |
 | `e2e.md` | you add or change a user flow or screen |
 | `component-tests.md` | you add or change a component or one of its states |

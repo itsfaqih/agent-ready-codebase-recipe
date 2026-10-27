@@ -8,9 +8,9 @@ Every check here is a command with a deterministic verdict. A check done by hand
 - **Worktrees**: you add a port, path, compose service, migration, or env var → `docs/worktrees.md`
 - **Lint**: you add a file type or hit a lint finding → `docs/lint.md`
 - **Boundaries**: you handle input from outside the program (HTTP, database, env, JSON) or branch on a union → `docs/boundaries.md`
-- **Testing**: you write or change a unit or integration test → `docs/testing.md`
+- **Testing**: you write or change a unit or integration test, or look for missing tests → `docs/testing.md`
 - **Dependencies in tests**: a test needs a database, queue, cloud service, or third-party API → `docs/hermetic-dependencies.md`
-- **Falsifiable tests**: you write, fix, or review any test → `docs/falsifiable-tests.md`
+- **Falsifiable tests**: you write or review any test, or fix a bug → `docs/falsifiable-tests.md`
 - **Agent access**: you add auth, a provider, a verification step, or a seeded user → `docs/agent-access.md`
 - **E2E**: you add or change a user flow or screen → `docs/e2e.md`
 - **Component tests**: you add or change a component or one of its states → `docs/component-tests.md`
