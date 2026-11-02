@@ -1,0 +1,9 @@
+{
+  "name": "astro-check-ts6",
+  "private": true,
+  "description": "Runs astro check with TypeScript 6, whose JavaScript API it needs, while the project uses TypeScript 7.",
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "typescript": "6.0.3"
+  }
+}

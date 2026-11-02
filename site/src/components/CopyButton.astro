@@ -1,0 +1,40 @@
+---
+import * as css from "./CopyButton.css";
+
+interface Props {
+  text: string;
+  iconLabel?: string;
+}
+
+const { text, iconLabel } = Astro.props;
+---
+
+{
+  iconLabel === undefined ? (
+    <button class={css.button} type="button" data-copy={text}>
+      <span class={css.label}>{text}</span>
+      <span class={css.hint} data-copy-hint aria-live="polite">
+        Copy
+      </span>
+    </button>
+  ) : (
+    <button class={css.iconButton} type="button" data-copy={text}>
+      <svg class={css.copyGlyph} width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <rect x="4.75" y="4.75" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5" />
+        <path d="M2.75 9.25a1.5 1.5 0 0 1-1.5-1.5v-5a1.5 1.5 0 0 1 1.5-1.5h5a1.5 1.5 0 0 1 1.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+      <svg class={css.checkGlyph} width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M2.25 7.5 5.5 10.75l6.25-7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span class={css.iconHint} data-copy-hint aria-live="polite">
+        {iconLabel}
+      </span>
+    </button>
+  )
+}
+
+<script>
+  import { bindCopyButtons } from "./copy-button";
+
+  bindCopyButtons(document);
+</script>

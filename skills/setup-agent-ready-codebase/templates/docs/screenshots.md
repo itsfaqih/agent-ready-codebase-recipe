@@ -13,11 +13,13 @@ Open each image at full size before you use it: every label is legible, nothing 
 
 ## Drawing the marks
 
-`tools/screenshots/annotate.js` runs in the page. Whichever driver takes the screenshot (the agent browser driver or the e2e runner, both in `docs/stack.md`) follows the same four steps:
+`tools/screenshots/annotate.js` runs in a web page. Whichever driver takes the screenshot (the app driver or the e2e runner, both in `docs/stack.md`) follows the same four steps:
 
 1. **Load** `annotate.js` into the page with the driver's evaluate-script call. Load it again after each page load.
 2. **Draw** by evaluating `window.__annotate.draw(marks)`, where `marks` is a list such as `{ target: '#save', shape: 'both', from: 'right', label: '1', note: 'Disabled while saving' }` and `{ target: '[role=status]', label: '2', note: 'New confirmation toast' }`. `draw` returns the crop (`{ x, y, width, height }`) and adds an empty `#__annotate-crop` element over it.
 3. **Capture** the crop: screenshot the `#__annotate-crop` element, or screenshot the page clipped to the returned rectangle. Some drivers capture an element only while it sits inside the viewport at scroll position 0, so a crop that ends below the viewport comes out blank. In that case, scroll to the top, set the viewport height to at least `y + height`, draw again (the layout may shift), and capture. For a whole-page capture, skip the crop and capture the full page.
 4. **Clear** with `window.__annotate.clear()`.
 
-In an e2e spec, wrap the four steps in one helper so a step can save an annotated image as the flow's lasting evidence. For a one-off capture for a pull request, use the agent browser driver.
+In an e2e spec, wrap the four steps in one helper so a step can save an annotated image as the flow's lasting evidence. For a one-off capture for a pull request, use the app driver.
+
+On a UI outside the browser, capture the screen with the app driver, crop the image to the change, and let the caption place each numbered change by where it sits on screen.

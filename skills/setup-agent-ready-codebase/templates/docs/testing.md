@@ -1,6 +1,6 @@
 # Testing
 
-The test runner in `docs/stack.md` runs unit and integration tests as two projects with separate commands: `test` (unit) and `test:integration`. Browser flows are `docs/e2e.md`.
+The test runner in `docs/stack.md` runs unit and integration tests as two projects with separate commands: `test` (unit) and `test:integration`. User flows are `docs/e2e.md`.
 
 A **unit test** covers pure logic with no I/O. An **integration test** drives a module through its public seam (an HTTP handler, a service function, a queue consumer) with its real collaborators running, and asserts on what the outside world can observe afterwards: the response, the row, the stored object, the message on the queue. Dependencies come from `docs/hermetic-dependencies.md`. Every new test also passes `docs/falsifiable-tests.md`.
 
@@ -10,12 +10,12 @@ A test calls the module's public API (the seam) and asserts what its caller obse
 
 ## Find missing tests
 
-Run each of these over the code you changed, once its tests pass, using the tools in `docs/stack.md`:
+Run each of these that `docs/stack.md` lists over the code you changed, once its tests pass:
 
 - **Mutation tester**: each surviving mutant is a behavior no test pins. Add a test that kills it, or record the mutant as equivalent (no observable change).
 - **Property-based tests**: for pure logic with an invariant (round trip, idempotence, ordering, bounds), state the invariant over generated inputs. A failing run's shrunk counterexample becomes a literal example test beside the property.
 
-Done when no mutant survives unexplained and each property passes the library's default number of runs.
+Done when no mutant survives unexplained and each property passes the library's default number of runs. A stack with neither tool skips this section.
 
 ## Writing an integration test
 

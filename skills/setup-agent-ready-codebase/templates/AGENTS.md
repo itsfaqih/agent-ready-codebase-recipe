@@ -1,6 +1,6 @@
 # Agent instructions
 
-Every check here is a command with a deterministic verdict. A check done by hand (a browser walk, a curl, reading output) becomes a test, script, or lint rule before the work is called done.
+Every check here is a command with a deterministic verdict. A check done by hand (an app walk, a curl, reading output) becomes a test, script, or lint rule before the work is called done.
 
 ## Read a doc when
 
@@ -15,7 +15,7 @@ Every check here is a command with a deterministic verdict. A check done by hand
 - **E2E**: you add or change a user flow or screen → `docs/e2e.md`
 - **Component tests**: you add or change a component or one of its states → `docs/component-tests.md`
 - **Mobile E2E**: you add or change a flow in the native iOS or Android app → `docs/e2e-mobile.md`
-- **Browser**: you interact with the running web app directly → `docs/browser.md`
+- **App use**: you interact with the running app directly → `docs/app-use.md`
 - **Observability**: you add a route, a log line, or an analytics event → `docs/observability.md`
 - **Screenshots**: you capture an image for a PR or report → `docs/screenshots.md`
 - **Pull request**: you open or update a PR → `docs/pull-requests.md`

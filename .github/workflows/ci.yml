@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: voidzero-dev/setup-vp@v1.22.0
+        with:
+          node-version: 24
+          cache: true
+      - run: vp run lint
+        env:
+          SKILL_VERSION_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+      - run: vp run test:components

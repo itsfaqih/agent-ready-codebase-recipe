@@ -1,0 +1,15 @@
+---
+import type { Status } from "../data/run";
+
+interface Props {
+  status: Status;
+  size: number;
+  class?: string;
+}
+
+const { status, size, class: className } = Astro.props;
+---
+
+<svg class={className} width={size} height={size} viewBox="0 0 22 22" aria-hidden="true">
+  <use href={`#status-${status}`}></use>
+</svg>

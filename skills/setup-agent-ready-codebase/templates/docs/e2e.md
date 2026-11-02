@@ -1,6 +1,6 @@
 # E2E tests
 
-The suite drives the built app in a real browser through every user **flow**, and saves a screenshot after each step, so a reviewer can follow any flow without running it. Web suites use the e2e runner in `docs/stack.md`; dependencies come from `docs/hermetic-dependencies.md`, seeded users from `docs/agent-access.md`. For a native iOS or Android app, read `docs/e2e-mobile.md` too.
+The suite drives the built app through every user **flow**, and saves a screenshot after each step, so a reviewer can follow any flow without running it. Web suites run in a real browser with the e2e runner in `docs/stack.md`; dependencies come from `docs/hermetic-dependencies.md`, seeded users from `docs/agent-access.md`. For a native iOS or Android app, read `docs/e2e-mobile.md` too.
 
 ## Two run modes
 
@@ -25,7 +25,7 @@ A comment at the top of the e2e config states what the suite leaves out: the bro
 
 ## Writing a spec
 
-Explore the flow with the browser driver (`docs/browser.md`) first. Each spec seeds its own data, walks the flow in named steps through the `step` fixture (`e2e/fixtures`), and ends by asserting the outcome the user came for. Run the red check from `docs/falsifiable-tests.md` on the outcome assertion, then run that flow three times in a row (`test:e2e:flow "<flow name>"` with the runner's repeat option). Done when the flow's spec has been seen red and the repeated run passes with zero retries.
+Explore the flow with the app driver (`docs/app-use.md`) first. Each spec seeds its own data, walks the flow in named steps through the `step` fixture (`e2e/fixtures`), and ends by asserting the outcome the user came for. Run the red check from `docs/falsifiable-tests.md` on the outcome assertion, then run that flow three times in a row (`test:e2e:flow "<flow name>"` with the runner's repeat option). Done when the flow's spec has been seen red and the repeated run passes with zero retries.
 
 ## Reliability rules
 

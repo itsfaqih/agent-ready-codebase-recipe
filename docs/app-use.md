@@ -1,6 +1,6 @@
-# Driving the browser
+# App use
 
-Use the agent browser driver in `docs/stack.md` whenever you need to interact with the running web app directly:
+Use the app driver in `docs/stack.md` whenever you need to interact with the running site directly:
 
 - walking the app to find flows or blockers,
 - reproducing a failing spec by hand,
@@ -11,4 +11,4 @@ Walk each flow as a user does: through the visible UI only (click, type, navigat
 
 Open the branch's dev URL (per `docs/worktrees.md`), signed in as a seeded user from the instructions file.
 
-Turn each check that matters into a spec in `e2e/` (`docs/e2e.md`), so the next run repeats it without an agent. Record video with the driver's recording command, under the rule in `docs/e2e.md` (Video).
+Turn each check that matters into a component test (`docs/component-tests.md`) so the next run repeats it without an agent. Record video with the driver's recording command only for a live interaction that screenshots cannot show.

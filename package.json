@@ -1,0 +1,35 @@
+{
+  "name": "agent-ready-codebase-recipe",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "portless run astro dev --ignore-lock",
+    "build": "astro build",
+    "preview": "astro preview --ignore-lock",
+    "lint": "vp run lint:vp && vp run lint:tsrs && vp run lint:astro && vp run lint:template-sync && vp run lint:doc-refs && vp run lint:skill-version",
+    "lint:fix": "vp run lint:vp:fix",
+    "lint:vp": "vp check --deny-warnings",
+    "lint:vp:fix": "vp check --fix",
+    "lint:tsrs": "tsrs --noEmit",
+    "lint:astro": "astro sync && vp exec --filter astro-check-ts6 astro-check --root ../..",
+    "lint:template-sync": "cmp skills/setup-agent-ready-codebase/templates/tools/annotate.js tools/screenshots/annotate.js",
+    "lint:doc-refs": "node tools/lint/doc-refs.ts",
+    "lint:skill-version": "node tools/lint/skill-version.ts",
+    "skill:sync": "rsync -ac --delete skills/setup-agent-ready-codebase/ $HOME/.agents/skills/setup-agent-ready-codebase/",
+    "test:components": "vp test run",
+    "test:layout": "node tools/layout/one-line.ts"
+  },
+  "dependencies": {
+    "@vanilla-extract/css": "^1.21.3",
+    "@vanilla-extract/vite-plugin": "^5.2.6",
+    "astro": "^7.4.4"
+  },
+  "devDependencies": {
+    "agent-browser": "^0.41.0",
+    "happy-dom": "^21.0.4",
+    "portless": "^0.15.12",
+    "tsrs": "0.20.1-ts7.1.0-beta",
+    "vite-plus": "catalog:"
+  },
+  "packageManager": "pnpm@12.16.1"
+}

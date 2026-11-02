@@ -1,0 +1,19 @@
+packages:
+  - tools/astro-check
+allowBuilds:
+  esbuild: true
+  sharp: true
+  agent-browser: true
+permissions:
+  agent-browser:
+    skills: true
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@1.4.0
+  vite-plus: 1.4.0
+overrides:
+  vite@*: "catalog:"
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: "*"

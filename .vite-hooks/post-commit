@@ -1,0 +1,3 @@
+if [ "$(git branch --show-current)" = main ] && [ -d "$HOME/.agents/skills/setup-agent-ready-codebase" ]; then
+  vp run skill:sync
+fi

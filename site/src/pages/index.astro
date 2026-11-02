@@ -1,0 +1,119 @@
+---
+import Base from "../layouts/Base.astro";
+import Board from "../components/Board.astro";
+import CopyButton from "../components/CopyButton.astro";
+import StatusIcon from "../components/StatusIcon.astro";
+import StatusSprite from "../components/StatusSprite.astro";
+import { DOCS, HERO_LEDE, INSTALL_COMMAND, PROBLEMS, REPO_URL, RUN_STEPS, SKILL_COMMAND } from "../data/content";
+import * as css from "../styles/page.css";
+---
+
+<Base
+  title="agent-ready-codebase-recipe"
+  description={HERO_LEDE}
+>
+  <StatusSprite />
+  <div class={css.frame}>
+    <nav class={css.nav}>
+      <span class={css.brand}>agent-ready-codebase-recipe</span>
+      <div class={css.navLinks}>
+        <a class={css.navLink} href="#run">
+          How it runs
+        </a>
+        <a class={css.navLink} href="#docs">
+          Docs it writes
+        </a>
+        <a class={css.navLink} href={REPO_URL}>
+          GitHub
+        </a>
+      </div>
+    </nav>
+
+    <header class={css.hero}>
+      <div class={css.heroText}>
+        <div class={css.eyebrow}>Agent skill</div>
+        <h1 class={css.h1}>Make your agent's work verifiable in your repo</h1>
+        <p class={css.lede}>{HERO_LEDE}</p>
+        <CopyButton text={SKILL_COMMAND} />
+        <p class={css.install} data-install-line>
+          <span class={css.installText} data-install-text>
+            <span class={css.installLabel}>Install first: </span><code class={css.installCode}>{INSTALL_COMMAND}</code>
+          </span>
+          <CopyButton text={INSTALL_COMMAND} iconLabel="Copy install command" />
+        </p>
+      </div>
+      <Board />
+    </header>
+
+    <section class={css.section}>
+      <div class={css.eyebrow}>The problem</div>
+      <h2 class={css.h2}>
+        You let your agent do the work, but what you deliver is about the same as before, because…
+      </h2>
+      <div class={css.problems}>
+        {PROBLEMS.map((p) => (
+          <div class={css.problemCard}>
+            <StatusIcon status="missing" size={28} />
+            <h3 class={css.cardTitle} data-problem-title>{p.title}</h3>
+            <p class={css.cardBody}>{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class={css.section} id="run">
+      <div class={css.eyebrow}>How a run works</div>
+      <h2 class={css.h2}>It checks what you have before it adds anything</h2>
+      <p class={css.sub}>
+        First it learns what the project is, who uses it and what a broken release costs, and you confirm how deep each
+        area goes.
+      </p>
+      <div class={css.steps}>
+        {RUN_STEPS.map((s) => (
+          <div class={css.step}>
+            <div class={css.stepNumber}>{s.label}</div>
+            <h3 class={css.stepTitle}>{s.title}</h3>
+            <p class={css.cardBody}>{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class={css.section} id="docs">
+      <div class={css.eyebrow}>What the agent reads afterwards</div>
+      <h2 class={css.h2}>Your agent loads a guide only when the task needs it</h2>
+      <p class={css.sub}>
+        AGENTS.md holds one pointer per doc, and each pointer says when to read it. A project gets only the docs it needs.
+      </p>
+      <table class={css.table}>
+        <thead>
+          <tr>
+            <th class={css.th}>Doc in docs/</th>
+            <th class={css.th}>Read it when</th>
+          </tr>
+        </thead>
+        <tbody>
+          {DOCS.map((d) => (
+            <tr>
+              <td class={css.tdFile}>{d.file}</td>
+              <td class={css.tdWhen}>{d.when}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <div class={css.end}>
+      <h2 class={css.endTitle}>Run it twice. The second run changes nothing.</h2>
+      <p class={css.endSub}>
+        A job your project already does keeps its tool unless you choose to move. For the rest, it recommends open-source
+        tools that are free for commercial use, and you decide.
+      </p>
+      <CopyButton text={INSTALL_COMMAND} />
+    </div>
+    <footer class={css.footer}>
+      <span>agent-ready-codebase-recipe</span>
+      <a href={REPO_URL}>github.com/itsfaqih</a>
+    </footer>
+  </div>
+</Base>
