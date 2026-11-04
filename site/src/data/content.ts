@@ -6,6 +6,8 @@ export const SKILL_COMMAND = "/setup-agent-ready-codebase";
 
 export const INSTALL_COMMAND = "npx skills add itsfaqih/agent-ready-codebase-recipe";
 
+export const HERO_TITLE = "Make your agent's work verifiable in your repo";
+
 export const HERO_LEDE =
   "Stop your agent from shipping mistakes by setting up your project with complete, reliable, and deterministic verification.";
 
@@ -64,23 +66,91 @@ export const DOCS: readonly { readonly file: string; readonly when: string }[] =
   { file: "lessons.md", when: "you make the same mistake twice" },
 ];
 
-export const PHASES: readonly { readonly id: Phase; readonly label: string }[] = [
-  { id: "audit", label: "Audit" },
-  { id: "fill", label: "Fill the gaps" },
-  { id: "reaudit", label: "Audit again" },
+export const PHASES: readonly { readonly id: Phase; readonly label: string; readonly short: string }[] = [
+  { id: "audit", label: "Audit", short: "Audit" },
+  { id: "fill", label: "Fill the gaps", short: "Fill" },
+  { id: "reaudit", label: "Audit again", short: "Again" },
 ];
 
+const alreadyDone = (name: string, summary: string, evidence: string): Area => ({
+  name,
+  summary,
+  finding: evidence,
+  evidence,
+  firstAudit: "done",
+});
+
 export const AREAS: readonly Area[] = [
-  { name: "Tools", summary: "You pick one per job", firstAudit: "done" },
-  { name: "Parallel work", summary: "Worktrees don't clash", firstAudit: "done" },
-  { name: "Linting", summary: "Strict rules per file type", firstAudit: "partial" },
-  { name: "Tests", summary: "Start their own services", firstAudit: "missing" },
-  { name: "Sign-in", summary: "Test users, no real accounts", firstAudit: "partial" },
-  { name: "UI tests", summary: "E2E or component tests", firstAudit: "missing" },
-  { name: "App use", summary: "Agent can drive the app", firstAudit: "missing" },
-  { name: "Logging", summary: "Queryable request logs", firstAudit: "missing" },
-  { name: "PR proof", summary: "Annotated screenshots", firstAudit: "partial" },
-  { name: "Lessons", summary: "Repeat mistakes become rules", firstAudit: "missing" },
-  { name: "Test review", summary: "Every test seen failing", firstAudit: "missing" },
-  { name: "Instructions", summary: "Tells agents where to look", firstAudit: "missing" },
+  alreadyDone("Tools", "You pick one per job", "docs/stack.md"),
+  alreadyDone("Parallel work", "Worktrees don't clash", "docs/worktrees.md"),
+  {
+    name: "Linting",
+    summary: "Strict rules per file type",
+    finding: "*.sql not linted",
+    evidence: "sqlfluff on *.sql",
+    firstAudit: "partial",
+  },
+  {
+    name: "Tests",
+    summary: "Start their own services",
+    finding: "Shared Postgres",
+    evidence: "Own Postgres per run",
+    firstAudit: "missing",
+  },
+  {
+    name: "Sign-in",
+    summary: "Test users, no real accounts",
+    finding: "No agent login",
+    evidence: "Seeded agent user",
+    firstAudit: "partial",
+  },
+  {
+    name: "UI tests",
+    summary: "E2E or component tests",
+    finding: "No e2e config",
+    evidence: "playwright.config.ts",
+    firstAudit: "missing",
+  },
+  {
+    name: "App use",
+    summary: "Agent can drive the app",
+    finding: "No browser driver",
+    evidence: "agent-browser",
+    firstAudit: "missing",
+  },
+  {
+    name: "Logging",
+    summary: "Queryable request logs",
+    finding: "console.log only",
+    evidence: "JSON per request",
+    firstAudit: "missing",
+  },
+  {
+    name: "PR proof",
+    summary: "Annotated screenshots",
+    finding: "No screenshot step",
+    evidence: "docs/screenshots.md",
+    firstAudit: "partial",
+  },
+  {
+    name: "Lessons",
+    summary: "Repeat mistakes become rules",
+    finding: "No docs/lessons.md",
+    evidence: "docs/lessons.md",
+    firstAudit: "missing",
+  },
+  {
+    name: "Test review",
+    summary: "Every test seen failing",
+    finding: "No test seen red",
+    evidence: "Each test seen red",
+    firstAudit: "missing",
+  },
+  {
+    name: "Instructions",
+    summary: "Tells agents where to look",
+    finding: "No AGENTS.md",
+    evidence: "AGENTS.md",
+    firstAudit: "missing",
+  },
 ];

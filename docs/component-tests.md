@@ -1,6 +1,6 @@
 # Component tests
 
-The suite renders each component, drives it as a user would, and asserts what the user sees. Every component here runs in a DOM emulator. It runs with `test:components` on the component runner in `docs/stack.md`. The emulator has no layout, so the one layout rule, each board status message and the install line with its copy icon fitting on one line, runs in a real browser with `test:layout` against the running dev server. Pure logic a component uses is tested through that component, and every test also passes `docs/falsifiable-tests.md`.
+The suite renders each component, drives it as a user would, and asserts what the user sees. Every component here runs in a DOM emulator. It runs with `test:components` on the component runner in `docs/stack.md`. The emulator has no layout, so the layout rules, the run demo's text staying visible and clear of its files card and the install line with its copy icon fitting on one line, run in a real browser with `test:layout` against the running dev server. Pure logic a component uses is tested through that component, and every test also passes `docs/falsifiable-tests.md`.
 
 ## States
 
@@ -18,7 +18,7 @@ A component's **states** are the distinct things it can show: the default, each 
 - **Locate by role**, label, or visible text; add a test id only where no accessible name exists.
 - **Retrying assertions** wait for the state to arrive. Every wait is on a condition.
 - **Data comes from props or fixtures.**
-- **Frozen timers** with the runner's fake clock wherever the component schedules work, since the board and the copy button both schedule work on timers.
+- **Frozen timers** with the runner's fake clock wherever the component schedules work, since the run demo's script and the copy button both schedule work on timers.
 - **Retries stay at 0.** A flaky test is a bug in the test or the component.
 
 The screenshots show a reviewer the state; the assertions are what prove it. A pull request's evidence follows `docs/pull-requests.md`.

@@ -1,0 +1,47 @@
+---
+import { AREAS } from "../data/content";
+import { runTimeline } from "../data/run";
+import RunSession from "./RunSession.astro";
+import * as css from "./RunDemo.css";
+
+const frames = runTimeline(AREAS);
+
+const first = frames[0];
+
+const final = frames.at(-1);
+
+if (!first || !final) throw new Error("the run has no frames");
+
+// The Stageshow film script reads three names here: ss-stage finds the demo, ss-count and data-crop mark the clipped figures.
+const total = final.filesWritten;
+
+const figures = (count: number) => Array.from({ length: count }, (_, i) => i % 10);
+---
+
+<div class:list={[css.stage, "ss-stage"]} aria-hidden="true" data-run-demo>
+  <div class={css.terminal}>
+    <div class={css.bar}>
+      <span class={css.lights}><span class={css.dot}></span><span class={css.dot}></span><span class={css.dot}></span></span>
+    </div>
+    <div class={css.viewport}>
+      <div class={css.slot} data-slot="live"><RunSession frame={final} widestProgress={final.progress} /></div>
+      <div class={css.slot} data-slot="next"><RunSession frame={first} widestProgress={final.progress} /></div>
+    </div>
+  </div>
+  <div class={css.card} data-files-card>
+    <span>
+      <span class={css.cardLabel}>Files written</span>
+      <span class={css.cardNote} data-files-note>{final.note}</span>
+    </span>
+    <span class:list={[css.cardCount, "ss-count"]} data-files-written={total} data-count>
+      <span class={css.digit} data-digit="tens" data-crop><span class:list={[css.strip, css.stripTens]} data-strip style={`transform:translateY(-${Math.floor(total / 10)}em)`}>{figures(Math.floor(total / 10) + 1).map((figure) => <span>{figure}</span>)}</span></span>
+      <span class={css.digit} data-digit="ones" data-crop><span class={css.strip} data-strip style={`transform:translateY(-${total}em)`}>{figures(total + 1).map((figure) => <span>{figure}</span>)}</span></span>
+    </span>
+  </div>
+</div>
+
+<script>
+  import { playRunDemo } from "./run-demo";
+
+  playRunDemo(document);
+</script>

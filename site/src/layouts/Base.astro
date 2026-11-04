@@ -1,4 +1,6 @@
 ---
+import { AREAS, HERO_TITLE, SKILL_COMMAND } from "../data/content";
+import { runTimeline } from "../data/run";
 import "../styles/global.css";
 
 interface Props {
@@ -7,6 +9,13 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+// Link previews need absolute URLs, so these follow `site` in astro.config.mjs. `vp run og` films the files.
+const shareUrl = (path: string) => new URL(path, Astro.site).href;
+
+const filesWritten = runTimeline(AREAS).at(-1)?.filesWritten;
+
+const shareImageAlt = `${HERO_TITLE}. Beside it, a run of ${SKILL_COMMAND} passes ${AREAS.length} of ${AREAS.length} areas and writes ${filesWritten} files.`;
 ---
 
 <!doctype html>
@@ -17,6 +26,29 @@ const { title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={shareUrl("/og.png")} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={shareImageAlt} />
+    <meta property="og:video" content={shareUrl("/og.mp4")} />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="1920" />
+    <meta property="og:video:height" content="1080" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {
+      /* The gate in components/sections.ts, run before the first paint so the hero starts hidden instead of flashing.
+      If that module never runs, everything is shown on load rather than left hidden. */
+    }
+    <script is:inline>
+      if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const html = document.documentElement;
+        html.dataset.motion = "";
+        addEventListener("load", () => html.dataset.motion === "" && delete html.dataset.motion);
+      }
+    </script>
   </head>
   <body>
     <slot />

@@ -33,6 +33,8 @@ export const vars = createGlobalTheme(":root", {
 
 export const breakpoint = {
   mobile: "screen and (max-width: 900px)",
+  heroStacked: "screen and (max-width: 1159px)",
+  heroCompact: "screen and (max-width: 535px)",
 } as const;
 
 export const reducedMotion = "(prefers-reduced-motion: reduce)";

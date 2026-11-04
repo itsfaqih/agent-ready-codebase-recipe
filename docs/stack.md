@@ -16,6 +16,7 @@ The tools this project uses, chosen with the user during setup. The other docs n
 | App driver for agents | agent-browser |
 | Pull requests | GitHub CLI (`gh`) |
 | Git hooks | Vite+ (`vp config`), in `.vite-hooks/` |
+| Images and video in the repo | Git LFS, tracked by file extension in `.gitattributes` |
 | CI | GitHub Actions, with Vite+ set up by `voidzero-dev/setup-vp` |
 
 Rules:

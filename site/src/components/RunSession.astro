@@ -1,0 +1,60 @@
+---
+import { AREAS, PHASES, SKILL_COMMAND } from "../data/content";
+import { lastColumn, rowText, type Frame, type Phase } from "../data/run";
+import * as css from "./RunDemo.css";
+
+interface Props {
+  readonly frame: Frame;
+  readonly widestProgress: Readonly<Record<Phase, string>>;
+}
+
+const { frame, widestProgress } = Astro.props;
+---
+
+<div class={css.session} data-session>
+  <div class={css.prompt} data-prompt><span class={css.promptPath}>acme-web</span><span class={css.promptSigil}>❯</span><span class={css.promptCommand}>{SKILL_COMMAND}</span></div>
+  <div class={css.phases}>
+    {PHASES.map((phase) => (
+      <span class={css.phase} data-phase={phase.id} data-on={phase.id === frame.phase ? "" : undefined}>
+        <span class={css.phaseLabel}>{phase.label}</span>
+        <span class={css.phaseShort}>{phase.short}</span>
+        <span class={css.phaseProgress} style={`min-width:${widestProgress[phase.id].length}ch`} data-progress>{frame.progress[phase.id]}</span>
+      </span>
+    ))}
+  </div>
+  <div class={css.rows}>
+    <span
+      class={css.activeRow}
+      data-active-row
+      data-on={frame.active === null ? undefined : ""}
+      style={`transform:translateY(${(frame.active ?? 0) * 100}%)`}
+    ></span>
+    {AREAS.map((area, i) => {
+      const state = frame.states[i] ?? "unread";
+      const written = frame.written[i] ?? null;
+
+      return (
+        <div class={css.row} data-area={area.name} data-state={state}>
+          <span class={css.marks}>
+            <span class:list={[css.mark, css.markFaint]}>·</span>
+            <span class:list={[css.mark, css.markMissing]}>○</span>
+            <span class:list={[css.mark, css.markPartial]}>◐</span>
+            <span class:list={[css.mark, css.markDone]}>✓</span>
+          </span>
+          <span class={css.areaName} data-area-name>{area.name}</span>
+          <span class={css.finding} data-row-text>{rowText(state, area)}</span>
+          <span
+            class={css.written}
+            data-row-written={written ?? ""}
+            data-word={written === null ? state : undefined}
+            data-idle={written === 0 ? "" : undefined}
+          >{lastColumn(state, written)}</span>
+        </div>
+      );
+    })}
+  </div>
+  <div class={css.status} data-status-line>{frame.message}</div>
+  <div class={css.nextPrompt} data-next-prompt={frame.final ? "shown" : "hidden"}>
+    <div class={css.prompt}><span class={css.promptPath}>acme-web</span><span class={css.promptSigil}>❯</span><span class={css.promptCommand}><span class={css.caret}></span></span></div>
+  </div>
+</div>

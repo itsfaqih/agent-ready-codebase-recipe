@@ -1,0 +1,30 @@
+---
+import "../styles/global.css";
+import RunDemo from "../components/RunDemo.astro";
+import { HERO_TITLE, SKILL_COMMAND } from "../data/content";
+import * as css from "../styles/og.css";
+
+// The frame `vp run og` films into the share image and video. Nothing on the site links here.
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{HERO_TITLE}</title>
+  </head>
+  <body>
+    <div class={css.frame}>
+      <div class={css.text}>
+        <span class={css.brand}>agent-ready-codebase-recipe</span>
+        <h1 class={css.title}>{HERO_TITLE}</h1>
+        <code class={css.command}>{SKILL_COMMAND}</code>
+      </div>
+      <div class={css.demo}>
+        <RunDemo />
+      </div>
+    </div>
+  </body>
+</html>

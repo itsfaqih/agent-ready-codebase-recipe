@@ -20,5 +20,8 @@ Every check here is a command with a deterministic verdict. A check done by hand
 - Tool guides: the agent-browser skill, installed by pnpm into `.claude/skills/`, and the Vite+ guide in `node_modules/vite-plus/AGENTS.md`.
 - Run package scripts with `vp run <script>`. The built-in `vp dev` and `vp build` start plain Vite, without Astro.
 - The skill itself lives in `skills/setup-agent-ready-codebase/`; `tools/screenshots/annotate.js` is a copy of its template, and `lint:template-sync` fails when the two differ.
+- The hero demo is `site/src/components/RunDemo.astro`, played by `site/src/components/run-demo.ts`. Change its framing or motion by the steps in `site/src/components/REHEARSAL.md`.
+- Sections enter through `site/src/components/sections.ts` and the entrance rules at the end of `site/src/styles/page.css.ts`. To make an element enter, give it `data-reveal` inside its section's `data-reveal-group`.
+- The share image and video (`site/public/og.png`, `og.mp4`, `og.webm`) are filmed from `site/src/pages/og.astro` by `vp run og <preview-url>`, against a built and previewed site. Re-film them after changing the hero title, the skill command or the run.
 - The skill's `metadata.version` rises once per change that reaches `origin/main`; `lint:skill-version` fails otherwise and names the level to raise. In a clone that has run `vp config --hooks --no-agent`, a commit or merge on `main` copies the skill to `~/.agents/skills/`.
 - `skills check` and `skills update` reinstall every global skill with an upstream change and drop local edits to it; install this skill with `skill:sync`.

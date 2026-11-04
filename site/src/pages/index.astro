@@ -1,10 +1,10 @@
 ---
 import Base from "../layouts/Base.astro";
-import Board from "../components/Board.astro";
 import CopyButton from "../components/CopyButton.astro";
+import RunDemo from "../components/RunDemo.astro";
 import StatusIcon from "../components/StatusIcon.astro";
 import StatusSprite from "../components/StatusSprite.astro";
-import { DOCS, HERO_LEDE, INSTALL_COMMAND, PROBLEMS, REPO_URL, RUN_STEPS, SKILL_COMMAND } from "../data/content";
+import { AREAS, DOCS, HERO_LEDE, HERO_TITLE, INSTALL_COMMAND, PHASES, PROBLEMS, REPO_URL, RUN_STEPS, SKILL_COMMAND } from "../data/content";
 import * as css from "../styles/page.css";
 ---
 
@@ -29,31 +29,41 @@ import * as css from "../styles/page.css";
       </div>
     </nav>
 
-    <header class={css.hero}>
+    <header class={css.hero} data-reveal-group>
       <div class={css.heroText}>
-        <div class={css.eyebrow}>Agent skill</div>
-        <h1 class={css.h1}>Make your agent's work verifiable in your repo</h1>
-        <p class={css.lede}>{HERO_LEDE}</p>
-        <CopyButton text={SKILL_COMMAND} />
-        <p class={css.install} data-install-line>
+        <div class={css.eyebrow} data-reveal>Agent skill</div>
+        <h1 class={css.h1} data-reveal>{HERO_TITLE}</h1>
+        <p class={css.lede} data-reveal>{HERO_LEDE}</p>
+        <div data-reveal><CopyButton text={SKILL_COMMAND} /></div>
+        <p class={css.install} data-install-line data-reveal>
           <span class={css.installText} data-install-text>
             <span class={css.installLabel}>Install first: </span><code class={css.installCode}>{INSTALL_COMMAND}</code>
           </span>
           <CopyButton text={INSTALL_COMMAND} iconLabel="Copy install command" />
         </p>
       </div>
-      <Board />
+      <div class={css.heroDemo} data-reveal="fade">
+        <RunDemo />
+        <div class={css.visuallyHidden}>
+          <ol aria-label="Run phase">
+            {PHASES.map((phase) => <li>{phase.label}</li>)}
+          </ol>
+          <ul aria-label="The 12 areas the skill checks">
+            {AREAS.map((area) => <li>{area.name}: {area.summary}</li>)}
+          </ul>
+        </div>
+      </div>
     </header>
 
-    <section class={css.section}>
-      <div class={css.eyebrow}>The problem</div>
-      <h2 class={css.h2}>
+    <section class={css.section} data-reveal-group>
+      <div class={css.eyebrow} data-reveal>The problem</div>
+      <h2 class={css.h2} data-reveal>
         You let your agent do the work, but what you deliver is about the same as before, because…
       </h2>
       <div class={css.problems}>
         {PROBLEMS.map((p) => (
-          <div class={css.problemCard}>
-            <StatusIcon status="missing" size={28} />
+          <div class={css.problemCard} data-reveal>
+            <StatusIcon status="missing" size={28} class={css.problemIcon} />
             <h3 class={css.cardTitle} data-problem-title>{p.title}</h3>
             <p class={css.cardBody}>{p.body}</p>
           </div>
@@ -61,16 +71,16 @@ import * as css from "../styles/page.css";
       </div>
     </section>
 
-    <section class={css.section} id="run">
-      <div class={css.eyebrow}>How a run works</div>
-      <h2 class={css.h2}>It checks what you have before it adds anything</h2>
-      <p class={css.sub}>
+    <section class={css.section} id="run" data-reveal-group>
+      <div class={css.eyebrow} data-reveal>How a run works</div>
+      <h2 class={css.h2} data-reveal>It checks what you have before it adds anything</h2>
+      <p class={css.sub} data-reveal>
         First it learns what the project is, who uses it and what a broken release costs, and you confirm how deep each
         area goes.
       </p>
       <div class={css.steps}>
         {RUN_STEPS.map((s) => (
-          <div class={css.step}>
+          <div class={css.step} data-reveal>
             <div class={css.stepNumber}>{s.label}</div>
             <h3 class={css.stepTitle}>{s.title}</h3>
             <p class={css.cardBody}>{s.body}</p>
@@ -79,22 +89,22 @@ import * as css from "../styles/page.css";
       </div>
     </section>
 
-    <section class={css.section} id="docs">
-      <div class={css.eyebrow}>What the agent reads afterwards</div>
-      <h2 class={css.h2}>Your agent loads a guide only when the task needs it</h2>
-      <p class={css.sub}>
+    <section class={css.section} id="docs" data-reveal-group>
+      <div class={css.eyebrow} data-reveal>What the agent reads afterwards</div>
+      <h2 class={css.h2} data-reveal>Your agent loads a guide only when the task needs it</h2>
+      <p class={css.sub} data-reveal>
         AGENTS.md holds one pointer per doc, and each pointer says when to read it. A project gets only the docs it needs.
       </p>
       <table class={css.table}>
         <thead>
-          <tr>
+          <tr data-reveal>
             <th class={css.th}>Doc in docs/</th>
             <th class={css.th}>Read it when</th>
           </tr>
         </thead>
         <tbody>
           {DOCS.map((d) => (
-            <tr>
+            <tr class={css.docRow} data-reveal>
               <td class={css.tdFile}>{d.file}</td>
               <td class={css.tdWhen}>{d.when}</td>
             </tr>
@@ -103,17 +113,25 @@ import * as css from "../styles/page.css";
       </table>
     </section>
 
-    <div class={css.end}>
-      <h2 class={css.endTitle}>Run it twice. The second run changes nothing.</h2>
-      <p class={css.endSub}>
+    <div class={css.end} data-reveal-group>
+      <h2 class={css.endTitle} data-reveal>Run it twice. The second run changes nothing.</h2>
+      <p class={css.endSub} data-reveal>
         A job your project already does keeps its tool unless you choose to move. For the rest, it recommends open-source
         tools that are free for commercial use, and you decide.
       </p>
-      <CopyButton text={INSTALL_COMMAND} />
+      <div data-reveal><CopyButton text={INSTALL_COMMAND} /></div>
     </div>
     <footer class={css.footer}>
       <span>agent-ready-codebase-recipe</span>
-      <a href={REPO_URL}>github.com/itsfaqih</a>
+      <a class={css.footerLink} href={REPO_URL}>github.com/itsfaqih</a>
     </footer>
   </div>
 </Base>
+
+<script>
+  import { markCurrentSection, revealSections } from "../components/sections";
+
+  revealSections(document);
+
+  markCurrentSection(document);
+</script>
