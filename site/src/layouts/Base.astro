@@ -2,6 +2,8 @@
 import { AREAS, HERO_TITLE, SKILL_COMMAND } from "../data/content";
 import { runTimeline } from "../data/run";
 import "../styles/global.css";
+import { dark, light } from "../styles/palette";
+import { chromeColor, themeKey } from "../styles/scheme";
 
 interface Props {
   title: string;
@@ -25,6 +27,23 @@ const shareImageAlt = `${HERO_TITLE}. Beside it, a run of ${SKILL_COMMAND} passe
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content={light.bg} media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content={dark.bg} media="(prefers-color-scheme: dark)" />
+    {
+      /* The visitor's stored scheme, applied before any stylesheet so the page never paints the other one first. With
+      nothing stored, or storage blocked, the page and the two metas above follow the system. */
+    }
+    <script is:inline define:vars={{ themeKey, chromeColor }}>
+      try {
+        const theme = localStorage.getItem(themeKey);
+
+        if (theme === "light" || theme === "dark") {
+          document.documentElement.dataset.theme = theme;
+
+          for (const meta of document.querySelectorAll('meta[name="theme-color"]')) meta.content = chromeColor[theme];
+        }
+      } catch {}
+    </script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />

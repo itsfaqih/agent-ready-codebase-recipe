@@ -1,0 +1,101 @@
+---
+import { AREAS, RUN_STEPS, SKILL_COMMAND } from "../data/content";
+import StatusIcon from "./StatusIcon.astro";
+import * as css from "./RunSteps.css";
+import * as screen from "./Screen.css";
+
+// One run across the three screens: the areas the audit finds lacking are the ones the second audit marks done.
+const followed = ["Tests", "Linting", "Logging"].map((name) => {
+  const area = AREAS.find((candidate) => candidate.name === name);
+
+  if (!area) throw new Error(`no area named ${name}`);
+
+  return area;
+});
+
+const depths = [
+  { area: "Tests", depth: "full", reason: "Billing data" },
+  { area: "Logging", depth: "light", reason: "One service" },
+  { area: "Mobile app", depth: "n/a", reason: "No native app" },
+] as const;
+
+const files = [
+  { mark: "+", path: ".sqlfluff", note: "" },
+  { mark: "~", path: "package.json", note: "lint:sql" },
+  { mark: "~", path: "docs/lint.md", note: "merged" },
+  { mark: "~", path: "AGENTS.md", note: "+1 line" },
+] as const;
+---
+
+<div class={css.steps}>
+  {
+    RUN_STEPS.map((step, i) => (
+      <div class={css.step} data-step={i + 1}>
+        <div class:list={[screen.tile, css.tile]} aria-hidden="true" data-picture={`run step ${i + 1}`} data-reveal="fade">
+          {i === 0 && (
+            <div class={screen.panel}>
+              <div class={screen.panelBar}>Agent session</div>
+              <div class={screen.panelBody}>
+                <span class={css.kicker} data-print>Proposed depth</span>
+                {depths.map((row) => (
+                  <span class={css.depthRow} data-print>
+                    <span class={css.depthName}>{row.area}</span>
+                    <span class={css.pill}>{row.depth}</span>
+                    <span class={css.reason}>{row.reason}</span>
+                  </span>
+                ))}
+                <span class={css.reply} data-print><span class={screen.avatar}>Y</span>Looks right.</span>
+                {followed.map((area) => (
+                  <span class={css.finding} data-print>
+                    <StatusIcon status={area.firstAudit} size={14} class={screen.statusIcon} />
+                    <span class={css.findingName}>{area.name}</span>
+                    <span>{area.finding}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {i === 1 && (
+            <div class={screen.panel}>
+              <div class={screen.panelBar}>Agent session</div>
+              <div class={screen.panelBody}>
+                <div class={css.question} data-print>
+                  <div class={css.questionTitle}>Which tool lints *.sql?</div>
+                  <span class={screen.option}><span class={screen.radio} data-on />sqlfluff<span class={css.tag}>Recommended</span></span>
+                  <span class={screen.option}><span class={screen.radio} />sqruff</span>
+                </div>
+                {files.map((file) => (
+                  <span class={css.file} data-print>
+                    <span data-tone={file.mark === "+" ? "ok" : "faint"}>{file.mark}</span>
+                    <span>{file.path}</span>
+                    <span data-tone="faint">{file.note}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {i === 2 && (
+            <div class={screen.terminal}>
+              <div class={screen.termBar}><span class={screen.lights}><span class={screen.light} /><span class={screen.light} /><span class={screen.light} /></span>acme-web</div>
+              <div class={screen.termBody}>
+                <span class={screen.line} data-print><span class={screen.sigil}>❯</span><span data-tone="bright">{SKILL_COMMAND}</span></span>
+                <span class={screen.line} data-print><span data-tone="faint">Audit again</span></span>
+                {followed.map((area) => (
+                  <span class={screen.line} data-print><span data-tone="ok">✓</span> <span class={screen.cell} style="--w:9ch">{area.name}</span>{area.evidence}</span>
+                ))}
+                <span class={screen.line} data-print><span data-tone="ok">{`${AREAS.length} of ${AREAS.length} done`}</span><span data-tone="faint"> · 0 files changed</span></span>
+                <span class={screen.line} data-print><span class={screen.sigil}>❯</span><span data-tone="bright">git status</span></span>
+                <span class:list={[screen.line, screen.wraps]} data-print>nothing to commit, working tree clean</span>
+              </div>
+            </div>
+          )}
+        </div>
+        <div class={css.copy}>
+          <div class={css.number} data-reveal>{step.label}</div>
+          <h3 class={css.title} data-reveal>{step.title}</h3>
+          <p class={css.body} data-reveal>{step.body}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>

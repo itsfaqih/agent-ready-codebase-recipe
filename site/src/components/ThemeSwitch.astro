@@ -1,0 +1,27 @@
+---
+import * as css from "./ThemeSwitch.css";
+---
+
+<button class={css.button} type="button" aria-label="Dark mode" aria-pressed="false" data-theme-switch>
+  <svg class={css.moon} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path
+      d="M13.75 9.6A5.75 5.75 0 0 1 6.4 2.25a5.75 5.75 0 1 0 7.35 7.35Z"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linejoin="round"></path>
+  </svg>
+  <svg class={css.sun} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <circle cx="8" cy="8" r="2.75" stroke="currentColor" stroke-width="1.5"></circle>
+    <path
+      d="M8 1.25v1.5M8 13.25v1.5M1.25 8h1.5M13.25 8h1.5M3.23 3.23l1.06 1.06M11.71 11.71l1.06 1.06M3.23 12.77l1.06-1.06M11.71 4.29l1.06-1.06"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"></path>
+  </svg>
+</button>
+
+<script>
+  import { bindThemeSwitch } from "./theme-switch";
+
+  bindThemeSwitch(document);
+</script>

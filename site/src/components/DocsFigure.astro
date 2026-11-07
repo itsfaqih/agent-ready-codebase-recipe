@@ -1,0 +1,62 @@
+---
+import { DOCS, DOCS_TASK } from "../data/content";
+import * as css from "./DocsFigure.css";
+import * as screen from "./Screen.css";
+
+// The agent's lines print in order: the task, AGENTS.md, then two lines per doc it opens (the read and the rule it
+// takes from it). A doc's line in AGENTS.md lights as the agent opens it, so its light waits for that read's index.
+const readIndex = (file: string) => {
+  const at = DOCS_TASK.reads.findIndex((read) => read.file === file);
+
+  return at === -1 ? undefined : 2 + at * 2;
+};
+
+const skipped = DOCS.length - DOCS_TASK.reads.length;
+---
+
+<figure class={css.figure}>
+  <div class={css.tile} data-picture="docs" data-reveal="fade">
+    <div class={css.agent} aria-hidden="true" data-overlay>
+      <div class={screen.termBar}><span class={screen.lights}><span class={screen.light} /><span class={screen.light} /><span class={screen.light} /></span>agent</div>
+      <div class={screen.termBody}>
+        <span class={screen.line} data-print><span class={screen.sigil}>❯</span><span data-tone="bright">{DOCS_TASK.task}</span></span>
+        <span class={screen.line} data-print><span class={screen.cell} style="--w:6ch">Read</span>AGENTS.md</span>
+        {DOCS_TASK.reads.map((read) => (
+          <>
+            <span class={screen.line} data-print data-reads={read.file}><span class={screen.cell} style="--w:6ch">Read</span><span data-tone="bright">docs/{read.file}</span></span>
+            <span class={screen.line} data-print><span class={screen.cell} style="--w:6ch"></span><span data-tone="faint">{read.rule}</span></span>
+          </>
+        ))}
+        <span class={screen.line} data-print><span class={screen.cell} style="--w:6ch"></span><span data-tone="faint">{`Skipped ${skipped} docs`}</span></span>
+        <span class={screen.line} data-print><span class={screen.cell} style="--w:6ch">Edit</span><span class={screen.cell} style="--w:15ch">compose.yml</span><span data-tone="faint">redis service</span></span>
+        <span class={screen.line} data-print><span class={screen.cell} style="--w:6ch">Edit</span><span class={screen.cell} style="--w:15ch">test/setup.ts</span><span data-tone="faint">Redis per run</span></span>
+        <span class={screen.line} data-print><span class={screen.sigil}>❯</span><span data-tone="bright">npm test</span></span>
+        <span class={screen.line} data-print><span data-tone="faint">redis:7 started on :55021</span></span>
+        <span class={screen.line} data-print><span data-tone="bright"><span class={screen.cell} style="--w:7ch">Tests</span></span><span data-tone="ok">4 passed</span></span>
+        <span class={screen.line} data-print><span class={screen.sigil}>❯</span><span class={css.caret} /></span>
+      </div>
+    </div>
+    <div class={css.doc}>
+      <div class={screen.panelBar}>AGENTS.md</div>
+      <div class={css.docBody}>
+        <h3 class:list={[css.docHeading, css.first]}>Read a doc when</h3>
+        <ul class={css.docList}>
+          {DOCS.map((doc) => {
+            const lit = readIndex(doc.file);
+
+            return (
+              <li class={css.docItem} data-lit={lit === undefined ? undefined : doc.file} style={lit === undefined ? undefined : `--lit:${lit}`}>
+                <strong>{doc.name}</strong>: {doc.when} → <code class={css.docFile}>docs/{doc.file}</code>
+              </li>
+            );
+          })}
+        </ul>
+        <h3 class={css.docHeading}>Project facts</h3>
+        <span class={css.filler} style="width:72%" />
+        <span class={css.filler} style="width:80%" />
+        <span class={css.filler} style="width:56%" />
+      </div>
+    </div>
+  </div>
+  <figcaption class={css.caption} data-reveal>{DOCS_TASK.caption}</figcaption>
+</figure>

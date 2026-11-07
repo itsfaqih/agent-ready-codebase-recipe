@@ -9,40 +9,66 @@ export const INSTALL_COMMAND = "npx skills add itsfaqih/agent-ready-codebase-rec
 export const HERO_TITLE = "Make your agent's work verifiable in your repo";
 
 export const HERO_LEDE =
-  "Stop your agent from shipping mistakes by setting up your project with complete, reliable, and deterministic verification.";
+  "A skill that audits your repo and adds the checks your agent needs to catch its own mistakes before they reach your review.";
 
-export const PROBLEMS: readonly { readonly title: string; readonly body: string }[] = [
+export type ProblemId = "tests" | "sign-in" | "parallel" | "review" | "app" | "logs";
+
+export const PROBLEMS: readonly {
+  readonly id: ProblemId;
+  readonly title: string;
+  readonly body: string;
+  readonly before: string;
+  readonly after: string;
+}[] = [
   {
-    title: "The tests your agent writes aren't reliable",
-    body: "Thousands of unit tests pass, yet none of them use the tools you run in your real environment.",
+    id: "tests",
+    title: "Your agent's tests don't touch real services",
+    body: "Every unit test passes, yet none of them run against the database or services your app uses in production.",
+    before: "The tests mock the database, so they pass and the broken query ships.",
+    after: "Tests run against a real Postgres, so the bug fails a test and the agent fixes it before your review.",
   },
   {
-    title: "Many checks still need you",
-    body: "Your agent can't sign in, use a real account or reach a live database on its own, so you end up checking its work yourself.",
+    id: "sign-in",
+    title: "Your agent can't sign in on its own",
+    body: "It has no account to sign in with and no database it can reach, so you end up checking that work yourself.",
+    before: "The agent stops at the login page and asks you to check.",
+    after: "It signs in as a seeded test user and checks the page itself.",
   },
   {
-    title: "Agents can't run the project at the same time",
-    body: "Two agents running at once fight over ports, files and one local database.",
+    id: "parallel",
+    title: "Two agents can't run the project at once",
+    body: "They use the same ports, files and local database, and break each other's runs.",
+    before: "The second dev server can't start, because the first one holds the port and the database.",
+    after: "Each worktree gets its own URL, ports and database.",
   },
   {
+    id: "review",
     title: "You still review what a tool could check",
-    body: "Formatting slips and lint errors reach your review, when a linter and formatter could have rejected them first.",
+    body: "Formatting and lint errors reach your review when a formatter and linter could have rejected them first.",
+    before: "Your review comments are about an unused import and indentation.",
+    after: "The linter and formatter reject those first, so your review covers the feature.",
   },
   {
+    id: "app",
     title: "Your agent can't use your app",
-    body: "It can't open the app and go through it as a user would, so it never sees what its change does.",
+    body: "It can't open the app and click through it as a user would, so it never sees what its change does.",
+    before: "It reports that the change should work, without having opened the app.",
+    after: "It opens the app, clicks through the flow and sees the result.",
   },
   {
-    title: "Your logs are hard to read and query",
-    body: "When something breaks, your agent scrolls through plain text instead of looking up the request that failed.",
+    id: "logs",
+    title: "Your logs are plain text",
+    body: "When something breaks, your agent scrolls through lines of output instead of querying for the request that failed.",
+    before: "No request id, so the agent guesses which lines belong to the failure.",
+    after: "One event per request, with the user and the failing field, found by its id.",
   },
 ];
 
 export const RUN_STEPS: readonly { readonly label: string; readonly title: string; readonly body: string }[] = [
   {
     label: "1 · Audit",
-    title: "Mark each area, with evidence",
-    body: "It proposes a depth for each area (full, light or n/a) for you to confirm. Then it marks each one done, partial or missing and cites the file or command output that shows it.",
+    title: "Mark each area with evidence",
+    body: "For each area it proposes a depth of full, light or n/a, and you confirm it. Then it marks each area done, partial or missing and cites the file or command output that shows it.",
   },
   {
     label: "2 · Fill the gaps",
@@ -56,15 +82,34 @@ export const RUN_STEPS: readonly { readonly label: string; readonly title: strin
   },
 ];
 
-export const DOCS: readonly { readonly file: string; readonly when: string }[] = [
-  { file: "worktrees.md", when: "you add a port, path, compose service, migration or env var" },
-  { file: "hermetic-dependencies.md", when: "a test needs a database, queue, cloud service or third-party API" },
-  { file: "falsifiable-tests.md", when: "you write or review any test, or fix a bug" },
-  { file: "agent-access.md", when: "you add auth, a provider, a verification step or a seeded user" },
-  { file: "e2e.md", when: "you add or change a user flow or screen" },
-  { file: "pull-requests.md", when: "you open or update a pull request" },
-  { file: "lessons.md", when: "you make the same mistake twice" },
+export const DOCS: readonly { readonly name: string; readonly file: string; readonly when: string }[] = [
+  { name: "Worktrees", file: "worktrees.md", when: "you add a port, path, compose service, migration or env var" },
+  {
+    name: "Dependencies in tests",
+    file: "hermetic-dependencies.md",
+    when: "a test needs a database, queue, cloud service or third-party API",
+  },
+  { name: "Falsifiable tests", file: "falsifiable-tests.md", when: "you write or review any test, or fix a bug" },
+  {
+    name: "Agent access",
+    file: "agent-access.md",
+    when: "you add auth, a provider, a verification step or a seeded user",
+  },
+  { name: "E2E", file: "e2e.md", when: "you add or change a user flow or screen" },
+  { name: "Pull request", file: "pull-requests.md", when: "you open or update a pull request" },
+  { name: "Lessons", file: "lessons.md", when: "you make the same mistake twice" },
 ];
+
+// The docs figure's agent gets this task and opens only the docs whose line matches it.
+export const DOCS_TASK = {
+  task: "Add a Redis cache for sessions",
+  reads: [
+    { file: "worktrees.md", rule: "Own port per worktree" },
+    { file: "hermetic-dependencies.md", rule: "Tests start their own Redis" },
+  ],
+  caption:
+    "The task adds a compose service and a test that needs Redis, so the agent opens those two docs and skips the other five.",
+} as const;
 
 export const PHASES: readonly { readonly id: Phase; readonly label: string; readonly short: string }[] = [
   { id: "audit", label: "Audit", short: "Audit" },

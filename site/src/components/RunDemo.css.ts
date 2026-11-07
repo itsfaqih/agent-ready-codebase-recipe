@@ -1,5 +1,7 @@
 import { createVar, globalStyle, keyframes, style } from "@vanilla-extract/css";
+import { whenDark } from "../styles/scheme";
 import { breakpoint, vars } from "../styles/theme.css";
+import { brightHairline } from "./Screen.css";
 
 const rowHeight = createVar();
 
@@ -39,25 +41,27 @@ globalStyle(`${stage} [data-was]`, { animation: `${textOut} 110ms linear forward
 
 globalStyle(`${stage} [data-now]`, { animation: `${textIn} 140ms linear 120ms backwards` });
 
-export const terminal = style({
-  position: "absolute",
-  left: 40,
-  top: 40,
-  right: -100,
-  bottom: -40,
-  display: "flex",
-  flexDirection: "column",
-  overflow: "hidden",
-  background: vars.color.ink,
-  borderRadius: 12,
-  boxShadow:
-    "inset 0 0 0 1px rgba(255, 255, 255, 0.07), 0 0 0 1px rgba(0, 0, 0, 0.06), 0 30px 60px -12px rgba(50, 50, 93, 0.25), 0 18px 36px -18px rgba(0, 0, 0, 0.3)",
-  "@media": {
-    [breakpoint.heroStacked]: { left: vars.space.gutter, top: 0 },
-    [breakpoint.mobile]: { left: vars.space.gutterMobile },
-    [breakpoint.heroCompact]: { right: -60, top: vars.space.gutterMobile, bottom: 44 },
+export const terminal = style([
+  {
+    position: "absolute",
+    left: 40,
+    top: 40,
+    right: -100,
+    bottom: -40,
+    display: "flex",
+    flexDirection: "column",
+    overflow: "hidden",
+    background: vars.color.terminal,
+    borderRadius: 12,
+    boxShadow: `inset 0 0 0 1px rgba(255, 255, 255, 0.07), 0 0 0 1px ${vars.color.edge}, 0 30px 60px -12px rgba(50, 50, 93, 0.25), 0 18px 36px -18px rgba(0, 0, 0, 0.3)`,
+    "@media": {
+      [breakpoint.heroStacked]: { left: vars.space.gutter, top: 0 },
+      [breakpoint.mobile]: { left: vars.space.gutterMobile },
+      [breakpoint.heroCompact]: { right: -60, top: vars.space.gutterMobile, bottom: 44 },
+    },
   },
-});
+  whenDark({ boxShadow: brightHairline }),
+]);
 
 export const bar = style({
   position: "relative",
@@ -141,7 +145,7 @@ export const phase = style({
   borderRadius: 3,
   color: "#8f8f8f",
   whiteSpace: "nowrap",
-  selectors: { "&[data-on]": { background: "#fafafa", color: vars.color.ink } },
+  selectors: { "&[data-on]": { background: "#fafafa", color: vars.color.terminal } },
 });
 
 export const phaseLabel = style({ "@media": { [breakpoint.heroCompact]: { display: "none" } } });

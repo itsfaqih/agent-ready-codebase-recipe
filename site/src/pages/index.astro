@@ -2,9 +2,12 @@
 import Base from "../layouts/Base.astro";
 import CopyButton from "../components/CopyButton.astro";
 import RunDemo from "../components/RunDemo.astro";
-import StatusIcon from "../components/StatusIcon.astro";
+import Problems from "../components/Problems.astro";
+import RunSteps from "../components/RunSteps.astro";
+import DocsFigure from "../components/DocsFigure.astro";
 import StatusSprite from "../components/StatusSprite.astro";
-import { AREAS, DOCS, HERO_LEDE, HERO_TITLE, INSTALL_COMMAND, PHASES, PROBLEMS, REPO_URL, RUN_STEPS, SKILL_COMMAND } from "../data/content";
+import ThemeSwitch from "../components/ThemeSwitch.astro";
+import { AREAS, HERO_LEDE, HERO_TITLE, INSTALL_COMMAND, PHASES, REPO_URL, SKILL_COMMAND } from "../data/content";
 import * as css from "../styles/page.css";
 ---
 
@@ -26,6 +29,7 @@ import * as css from "../styles/page.css";
         <a class={css.navLink} href={REPO_URL}>
           GitHub
         </a>
+        <ThemeSwitch />
       </div>
     </nav>
 
@@ -55,74 +59,46 @@ import * as css from "../styles/page.css";
       </div>
     </header>
 
-    <section class={css.section} data-reveal-group>
-      <div class={css.eyebrow} data-reveal>The problem</div>
-      <h2 class={css.h2} data-reveal>
-        You let your agent do the work, but what you deliver is about the same as before, because…
-      </h2>
-      <div class={css.problems}>
-        {PROBLEMS.map((p) => (
-          <div class={css.problemCard} data-reveal>
-            <StatusIcon status="missing" size={28} class={css.problemIcon} />
-            <h3 class={css.cardTitle} data-problem-title>{p.title}</h3>
-            <p class={css.cardBody}>{p.body}</p>
-          </div>
-        ))}
+    <section class={css.section} id="problem">
+      <div data-reveal-group>
+        <div class={css.eyebrow} data-reveal>The problem</div>
+        <h2 class={css.h2} data-reveal>Why you still check your agent's work yourself</h2>
+        <p class={css.sub} data-reveal>
+          Six gaps that leave the checking to you. Each row shows the same screen before the skill runs and after it.
+        </p>
       </div>
+      <Problems />
     </section>
 
     <section class={css.section} id="run" data-reveal-group>
       <div class={css.eyebrow} data-reveal>How a run works</div>
       <h2 class={css.h2} data-reveal>It checks what you have before it adds anything</h2>
       <p class={css.sub} data-reveal>
-        First it learns what the project is, who uses it and what a broken release costs, and you confirm how deep each
+        First it learns what the project is, who uses it and what a broken release costs. Then you confirm how deep each
         area goes.
       </p>
-      <div class={css.steps}>
-        {RUN_STEPS.map((s) => (
-          <div class={css.step} data-reveal>
-            <div class={css.stepNumber}>{s.label}</div>
-            <h3 class={css.stepTitle}>{s.title}</h3>
-            <p class={css.cardBody}>{s.body}</p>
-          </div>
-        ))}
-      </div>
+      <RunSteps />
     </section>
 
     <section class={css.section} id="docs" data-reveal-group>
       <div class={css.eyebrow} data-reveal>What the agent reads afterwards</div>
-      <h2 class={css.h2} data-reveal>Your agent loads a guide only when the task needs it</h2>
+      <h2 class={css.h2} data-reveal>Your agent reads a doc only when the task needs it</h2>
       <p class={css.sub} data-reveal>
-        AGENTS.md holds one pointer per doc, and each pointer says when to read it. A project gets only the docs it needs.
+        AGENTS.md has one line per doc that says when to read it. A project gets only the docs it needs.
       </p>
-      <table class={css.table}>
-        <thead>
-          <tr data-reveal>
-            <th class={css.th}>Doc in docs/</th>
-            <th class={css.th}>Read it when</th>
-          </tr>
-        </thead>
-        <tbody>
-          {DOCS.map((d) => (
-            <tr class={css.docRow} data-reveal>
-              <td class={css.tdFile}>{d.file}</td>
-              <td class={css.tdWhen}>{d.when}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <DocsFigure />
     </section>
 
     <div class={css.end} data-reveal-group>
-      <h2 class={css.endTitle} data-reveal>Run it twice. The second run changes nothing.</h2>
+      <h2 class={css.endTitle} data-reveal>Get your repo ready for agents in one run.</h2>
       <p class={css.endSub} data-reveal>
-        A job your project already does keeps its tool unless you choose to move. For the rest, it recommends open-source
-        tools that are free for commercial use, and you decide.
+        Spend your review on the decisions. Your agent formats, lints, tests and tries the change in the app before it asks
+        you to look.
       </p>
       <div data-reveal><CopyButton text={INSTALL_COMMAND} /></div>
     </div>
     <footer class={css.footer}>
-      <span>agent-ready-codebase-recipe</span>
+      <span>Made with ❤️ by <a class={css.footerLink} href="https://itsfaqih.dev">Faqih</a></span>
       <a class={css.footerLink} href={REPO_URL}>github.com/itsfaqih</a>
     </footer>
   </div>

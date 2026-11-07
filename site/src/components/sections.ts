@@ -31,6 +31,10 @@ export function revealSections(root: Document): void {
     group.querySelectorAll<HTMLElement>("[data-reveal]").forEach((item, i) => {
       item.style.setProperty("--reveal-i", String(Math.min(i, STAGGER_CAP)));
     });
+    // A group's screens print their lines in reading order: a problem's before tile first, the run's steps left to right.
+    group.querySelectorAll<HTMLElement>("[data-print]").forEach((line, i) => {
+      line.style.setProperty("--print-i", String(i));
+    });
     observer.observe(group);
   }
 }

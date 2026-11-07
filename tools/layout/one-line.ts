@@ -106,6 +106,63 @@ const installFit = `(() => {
 
 const sidewaysScroll = `document.documentElement.scrollWidth - innerWidth`;
 
+// The brand, the links that show and the theme switch share one row; the switch's glyph ends on the gutter, level with
+// the links, inside a hit area of at least 32px.
+const navFit = `(() => {
+  const nav = document.querySelector("nav");
+  const brand = nav.firstElementChild;
+  const range = document.createRange();
+  range.selectNodeContents(brand);
+  const lines = new Set([...range.getClientRects()].filter((rect) => rect.width > 1).map((rect) => Math.round(rect.top))).size;
+  if (lines !== 1) return "wraps the brand onto " + lines + " lines";
+  const shown = [...nav.querySelectorAll("a, button")].filter((item) => getComputedStyle(item).display !== "none");
+  const gap = shown[0].getBoundingClientRect().left - brand.getBoundingClientRect().right;
+  if (gap < 12) return "leaves " + gap.toFixed(1) + "px between the brand and its links";
+  const button = nav.querySelector("[data-theme-switch]");
+  const hit = button.getBoundingClientRect();
+  if (hit.width < 32 || hit.height < 32) return "gives the theme switch a " + hit.width + "x" + hit.height + " hit area";
+  const glyph = [...button.querySelectorAll("svg")].find((svg) => getComputedStyle(svg).display !== "none").getBoundingClientRect();
+  const gutter = nav.getBoundingClientRect().right - parseFloat(getComputedStyle(nav).paddingRight);
+  if (Math.abs(glyph.right - gutter) > 0.5) return "ends the theme switch glyph " + (glyph.right - gutter).toFixed(1) + "px off the gutter";
+  const link = shown.at(-2).getBoundingClientRect();
+  const offset = (glyph.top + glyph.bottom) / 2 - (link.top + link.bottom) / 2;
+  if (Math.abs(offset) > 1) return "sets the theme switch glyph " + offset.toFixed(1) + "px off the links' middle";
+  return "fits";
+})()`;
+
+// Each screen runs off its tile on the right and bottom, so its words must end 8px inside what the tile shows.
+// A window laid over another (data-overlay) must leave the words beneath it 8px clear.
+const pictureFit = `(() => {
+  const cut = [];
+  for (const tile of document.querySelectorAll("[data-picture]")) {
+    const box = tile.getBoundingClientRect();
+    const overlays = [...tile.querySelectorAll("[data-overlay]")];
+    const walker = document.createTreeWalker(tile, NodeFilter.SHOW_TEXT);
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (node.textContent.trim() === "") continue;
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      const beneath = overlays.filter((overlay) => !overlay.contains(node)).map((overlay) => overlay.getBoundingClientRect());
+      for (const rect of range.getClientRects()) {
+        if (rect.right > box.right - 8 || rect.bottom > box.bottom - 8) {
+          cut.push(tile.dataset.picture + ": " + node.textContent.trim());
+          break;
+        }
+        const covered = beneath.some(
+          (o) => rect.right > o.left - 8 && rect.left < o.right + 8 && rect.bottom > o.top - 8 && rect.top < o.bottom + 8,
+        );
+        if (covered) {
+          cut.push(tile.dataset.picture + ": " + node.textContent.trim() + " under a window");
+          break;
+        }
+      }
+      const size = parseFloat(getComputedStyle(node.parentElement).fontSize);
+      if (size < 10) cut.push(node.textContent.trim() + " at " + size + "px");
+    }
+  }
+  return cut.join(" | ");
+})()`;
+
 const loneLastWords = `(() => {
   const lonely = [];
   for (const title of document.querySelectorAll("[data-problem-title]")) {
@@ -142,8 +199,7 @@ const svgTextOverflow = `(() => {
   return overflowing.join(" | ");
 })()`;
 
-// A table row enters through its cells, so the cells are checked with the elements that enter.
-const entering = `[...document.querySelectorAll("[data-reveal], tr[data-reveal] > *")]`;
+const entering = `[...document.querySelectorAll("[data-reveal], [data-print]")]`;
 
 const docsVisibleBeforeScroll = `(() => {
   const items = [...document.querySelectorAll("#docs [data-reveal]")];
@@ -195,13 +251,21 @@ try {
 
     if (install !== "fits") wrapped.push(`${width}px: the install line ${install}`);
 
+    const nav = browser("eval", navFit).trim().replaceAll('"', "");
+
+    if (nav !== "fits") wrapped.push(`${width}px: the nav ${nav}`);
+
     const overflow = Number(browser("eval", sidewaysScroll));
 
     if (overflow > 0) wrapped.push(`${width}px: the page scrolls sideways by ${overflow}px`);
 
+    const pictures = browser("eval", pictureFit).trim().replaceAll('"', "");
+
+    if (pictures !== "") wrapped.push(`${width}px: a screen cuts or shrinks its text (${pictures})`);
+
     const lonely = browser("eval", loneLastWords).trim().replaceAll('"', "");
 
-    if (lonely !== "") wrapped.push(`${width}px: a card title ends on a lone word (${lonely})`);
+    if (lonely !== "") wrapped.push(`${width}px: a problem title ends on a lone word (${lonely})`);
   }
 
   browser("set", "viewport", "1280", "900");
@@ -236,5 +300,5 @@ if (wrapped.length > 0) {
 }
 
 console.log(
-  `At ${widths.join(", ")}px, the run demo keeps its ${messages.length} status messages and every area's text visible, clear of its files card and at 10px or larger, the install line stays on one line, the page has no sideways scroll, and no card title ends on a lone word. Each section enters: the docs section starts hidden, and after a scroll through every element that enters is fully visible in place, as it is on load with reduced motion. The copy icon confirms a click, and text stays inside its box in ${svgAssets.join(" and ")}.`,
+  `At ${widths.join(", ")}px, the run demo keeps its ${messages.length} status messages and every area's text visible, clear of its files card and at 10px or larger, the install line stays on one line, the nav keeps its brand, links and theme switch on one row with the switch's glyph on the gutter, the page has no sideways scroll, every screen's text ends inside its tile at 10px or larger and clear of any window laid over it, and no problem title ends on a lone word. Each section enters: the docs section starts hidden, and after a scroll through every element that enters is fully visible in place, as it is on load with reduced motion. The copy icon confirms a click, and text stays inside its box in ${svgAssets.join(" and ")}.`,
 );

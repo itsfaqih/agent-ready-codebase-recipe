@@ -59,6 +59,8 @@ try {
   // The video: one loop at 1920x1080, every frame at its exact moment on the page's held clock.
   const film = "arcr-og-video";
   browser(film, "--init-script", clock, "set", "viewport", "1280", "720", "1.5");
+  // The share media stays light whatever scheme the machine filming it prefers.
+  browser(film, "set", "media", "light");
   browser(film, "open", page);
   waitFor(film, `document.fonts.status === "loaded" && window.filmClock.pending() > 0`);
 

@@ -17,7 +17,7 @@
     "lint:skill-version": "node tools/lint/skill-version.ts",
     "skill:sync": "rsync -ac --delete skills/setup-agent-ready-codebase/ $HOME/.agents/skills/setup-agent-ready-codebase/",
     "test:components": "vp test run",
-    "test:layout": "node tools/layout/one-line.ts",
+    "test:layout": "node tools/layout/one-line.ts && node tools/layout/theme-switch.ts && node tools/layout/contrast.ts",
     "og": "node tools/og/capture.ts"
   },
   "dependencies": {

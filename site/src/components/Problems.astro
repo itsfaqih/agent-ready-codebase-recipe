@@ -1,0 +1,40 @@
+---
+import { PROBLEMS } from "../data/content";
+import ProblemPicture from "./ProblemPicture.astro";
+import StatusIcon from "./StatusIcon.astro";
+import * as css from "./Problems.css";
+import * as screen from "./Screen.css";
+
+const sides = [
+  { side: "before", label: "Before", status: "missing" },
+  { side: "after", label: "After", status: "done" },
+] as const;
+---
+
+<div class={css.rows}>
+  {
+    PROBLEMS.map((problem, i) => (
+      <article class={css.row} data-reveal-group data-problem={problem.id}>
+        <div class={css.copy}>
+          <div class={css.number} data-reveal>{String(i + 1).padStart(2, "0")}</div>
+          <h3 class={css.title} data-problem-title data-reveal>{problem.title}</h3>
+          <p class={css.body} data-reveal>{problem.body}</p>
+        </div>
+        <div class={css.pair}>
+          {sides.map(({ side, label, status }) => (
+            <figure class={css.side} data-side={side} data-reveal="fade">
+              <div class={css.label}>
+                <StatusIcon status={status} size={14} />
+                {label}
+              </div>
+              <div class={screen.tile} aria-hidden="true" data-picture={`${problem.id} ${side}`}>
+                <ProblemPicture problem={problem.id} side={side} />
+              </div>
+              <figcaption class={css.caption}>{problem[side]}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </article>
+    ))
+  }
+</div>

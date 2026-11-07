@@ -1,0 +1,232 @@
+---
+import type { ProblemId } from "../data/content";
+import StatusIcon from "./StatusIcon.astro";
+import * as css from "./Screen.css";
+
+interface Props {
+  problem: ProblemId;
+  side: "before" | "after";
+}
+
+const { problem, side } = Astro.props;
+
+const is = (id: ProblemId, which: "before" | "after") => problem === id && side === which;
+---
+
+{
+  is("tests", "before") && (
+    <>
+      <div class={css.terminal}>
+        <div class={css.termBar}><span class={css.lights}><span class={css.light} /><span class={css.light} /><span class={css.light} /></span>acme-web</div>
+        <div class:list={[css.termBody, css.roomForAlert]}>
+          <span class={css.line} data-print><span class={css.sigil}>❯</span><span data-tone="bright">npm test</span></span>
+          <span class={css.line} data-print><span data-tone="ok">✓</span> <span class={css.cell} style="--w:18ch">invoices.test.ts</span><span data-tone="faint">48</span></span>
+          <span class={css.line} data-print><span data-tone="ok">✓</span> <span class={css.cell} style="--w:18ch">billing.test.ts</span><span data-tone="faint">31</span></span>
+          <span class={css.line} data-print><span data-tone="ok">✓</span> <span class={css.cell} style="--w:18ch">export.test.ts</span><span data-tone="faint">22</span></span>
+          <span class={css.line} data-print><span data-tone="bright"><span class={css.cell} style="--w:7ch">Tests</span></span><span data-tone="ok">214 passed</span></span>
+          <span class={css.line} data-print><span data-tone="faint"><span class={css.cell} style="--w:7ch">db</span>mocked</span></span>
+        </div>
+      </div>
+      <div class={css.alert} data-print data-overlay>
+        <div class={css.alertHead}><span class={css.alertDot} />Production, 4 min after deploy</div>
+        <div class={css.alertText}>column "emial" does not exist</div>
+      </div>
+    </>
+  )
+}
+{
+  is("tests", "after") && (
+    <div class={css.terminal}>
+      <div class={css.termBar}><span class={css.lights}><span class={css.light} /><span class={css.light} /><span class={css.light} /></span>acme-web</div>
+      <div class={css.termBody}>
+        <span class={css.line} data-print><span class={css.sigil}>❯</span><span data-tone="bright">npm test</span></span>
+        <span class={css.line} data-print><span data-tone="faint">postgres:16 started on :54312</span></span>
+        <span class={css.line} data-print><span data-tone="bad">✗</span> export.test.ts</span>
+        <span class={css.line} data-print><span class={css.cell} style="--w:2ch"></span><span data-tone="bad">column "emial" does not exist</span></span>
+        <span class={css.line} data-print><span data-tone="bright"><span class={css.cell} style="--w:7ch">Tests</span></span><span data-tone="bad">1 failed</span> <span data-tone="faint">·</span> 213 passed</span>
+        <span class={css.line} data-print><span class={css.sigil}>❯</span><span data-tone="bright">npm test</span></span>
+        <span class={css.line} data-print><span data-tone="bright"><span class={css.cell} style="--w:7ch">Tests</span></span><span data-tone="ok">214 passed</span></span>
+      </div>
+    </div>
+  )
+}
+{
+  is("sign-in", "before") && (
+    <div class={css.panel}>
+      <div class={css.panelBar}>Agent session</div>
+      <div class={css.panelBody}>
+        <span class={css.step} data-print><span data-tone="ok">✓</span><span>Edit</span><span>billing/Plan.tsx</span></span>
+        <span class={css.step} data-print><span data-tone="bad">✗</span><span>Open</span><span>/billing → /login</span></span>
+        <p class={css.message} data-print>I can't sign in, so I couldn't check the billing page. Can you log in and confirm the Pro plan shows?</p>
+        <span class={css.status} data-print><StatusIcon status="partial" size={14} class={css.statusIcon} />Waiting for you</span>
+      </div>
+    </div>
+  )
+}
+{
+  is("sign-in", "after") && (
+    <div class={css.panel}>
+      <div class={css.panelBar}>Agent session</div>
+      <div class={css.panelBody}>
+        <span class={css.step} data-print><span data-tone="ok">✓</span><span>Edit</span><span>billing/Plan.tsx</span></span>
+        <span class={css.step} data-print><span data-tone="ok">✓</span><span>Sign in</span><span>admin@acme.test</span></span>
+        <span class={css.step} data-print><span data-tone="ok">✓</span><span>Open</span><span>/billing</span></span>
+        <p class={css.message} data-print>The billing page shows the Pro plan.</p>
+        <span class={css.status} data-print><StatusIcon status="done" size={14} class={css.statusIcon} />Checked by the agent</span>
+      </div>
+    </div>
+  )
+}
+{
+  is("parallel", "before") && (
+    <div class={css.terminal}>
+      <div class={css.termBar}><span class={css.lights}><span class={css.light} /><span class={css.light} /><span class={css.light} /></span>2 agents</div>
+      <div class={css.split}>
+        <div class={css.pane}>
+          <span class={css.line} data-print><span class={css.paneName}>fix-login</span></span>
+          <span class={css.line} data-print><span class={css.sigil}>❯</span><span data-tone="bright">npm run dev</span></span>
+          <span class={css.line} data-print><span data-tone="ok">ready</span> http://localhost:3000</span>
+        </div>
+        <div class={css.pane}>
+          <span class={css.line} data-print><span class={css.paneName}>add-export</span></span>
+          <span class={css.line} data-print><span class={css.sigil}>❯</span><span data-tone="bright">npm run dev</span></span>
+          <span class={css.line} data-print><span data-tone="bad">Error: port 3000 is in use</span></span>
+          <span class={css.line} data-print><span data-tone="bad">Error: acme_dev is locked</span></span>
+        </div>
+      </div>
+    </div>
+  )
+}
+{
+  is("parallel", "after") && (
+    <div class={css.terminal}>
+      <div class={css.termBar}><span class={css.lights}><span class={css.light} /><span class={css.light} /><span class={css.light} /></span>2 agents</div>
+      <div class={css.split}>
+        <div class={css.pane}>
+          <span class={css.line} data-print><span class={css.paneName}>fix-login</span></span>
+          <span class={css.line} data-print><span class={css.sigil}>❯</span><span data-tone="bright">npm run dev</span></span>
+          <span class={css.line} data-print><span data-tone="ok">ready</span> fix-login.acme.localhost</span>
+        </div>
+        <div class={css.pane}>
+          <span class={css.line} data-print><span class={css.paneName}>add-export</span></span>
+          <span class={css.line} data-print><span class={css.sigil}>❯</span><span data-tone="bright">npm run dev</span></span>
+          <span class={css.line} data-print><span data-tone="ok">ready</span> add-export.acme.localhost</span>
+          <span class={css.line} data-print><span data-tone="faint"><span class={css.cell} style="--w:6ch">db</span>acme_add_export</span></span>
+        </div>
+      </div>
+    </div>
+  )
+}
+{
+  is("review", "before") && (
+    <div class={css.panel}>
+      <div class={css.panelBar}>Add CSV export<span class={css.panelMeta}>#142</span></div>
+      <div class={css.panelBody}>
+        <div class={css.comment} data-print>
+          <span class={css.commentHead}><span class={css.avatar}>Y</span><span class={css.fileRef}>export.ts:3</span></span>
+          <span class={css.commentText}>Unused import.</span>
+        </div>
+        <div class={css.comment} data-print>
+          <span class={css.commentHead}><span class={css.avatar}>Y</span><span class={css.fileRef}>export.ts:18</span></span>
+          <span class={css.commentText}>Indent with two spaces.</span>
+        </div>
+        <div class={css.comment} data-print>
+          <span class={css.commentHead}><span class={css.avatar}>Y</span><span class={css.fileRef}>export.ts:41</span></span>
+          <span class={css.commentText}>Use === here.</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+{
+  is("review", "after") && (
+    <div class={css.panel}>
+      <div class={css.panelBar}>Add CSV export<span class={css.panelMeta}>#142</span></div>
+      <div class={css.panelBody}>
+        <div class={css.checks}>
+          <span class={css.check} data-print><span data-tone="ok">✓</span>lint</span>
+          <span class={css.check} data-print><span data-tone="ok">✓</span>format</span>
+          <span class={css.check} data-print><span data-tone="ok">✓</span>types</span>
+          <span class={css.check} data-print><span data-tone="ok">✓</span>tests</span>
+        </div>
+        <div class={css.comment} data-print>
+          <span class={css.commentHead}><span class={css.avatar}>Y</span><span class={css.fileRef}>export.ts:41</span></span>
+          <span class={css.commentText}>Should archived invoices export too?</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+{
+  is("app", "before") && (
+    <div class={css.panel}>
+      <div class={css.panelBar}>Agent session</div>
+      <div class={css.panelBody}>
+        <span class={css.step} data-print><span data-tone="ok">✓</span><span>Edit</span><span>ExportButton.tsx</span></span>
+        <span class={css.step} data-print><span data-tone="ok">✓</span><span>Test</span><span>12 passed</span></span>
+        <p class={css.message} data-print>Done. The Export button should now open the export dialog.</p>
+        <span class={css.status} data-print><StatusIcon status="missing" size={14} class={css.statusIcon} />Not opened in a browser</span>
+      </div>
+    </div>
+  )
+}
+{
+  is("app", "after") && (
+    <div class={css.panel}>
+      <div class:list={[css.panelBar, css.urlBar]}><span class={css.url}>acme.localhost/invoices</span></div>
+      <div class={css.panelBody}>
+        <div class={css.pageHead} data-print>
+          <span class={css.pageTitle}>Invoices</span>
+          <span class={css.button} data-open>Export</span>
+        </div>
+        <div class={css.listRow} data-print><span class={css.bar} style="width:34%" /><span class={css.bar} style="width:18%" /></div>
+        <div class={css.listRow} data-print><span class={css.bar} style="width:42%" /><span class={css.bar} style="width:14%" /></div>
+        <div class={css.listRow} data-print><span class={css.bar} style="width:28%" /><span class={css.bar} style="width:20%" /></div>
+        <div class={css.listRow} data-print><span class={css.bar} style="width:38%" /><span class={css.bar} style="width:16%" /></div>
+        <div class={css.listRow} data-print><span class={css.bar} style="width:31%" /><span class={css.bar} style="width:19%" /></div>
+      </div>
+      <div class={css.dialog} data-print>
+        <div class={css.dialogTitle}>Export invoices</div>
+        <div class={css.option}><span class={css.radio} data-on />CSV</div>
+        <div class={css.option}><span class={css.radio} />PDF</div>
+        <div class={css.primary}>Download</div>
+      </div>
+    </div>
+  )
+}
+{
+  is("logs", "before") && (
+    <div class={css.terminal}>
+      <div class={css.termBar}><span class={css.lights}><span class={css.light} /><span class={css.light} /><span class={css.light} /></span>server.log</div>
+      <div class={css.termBody}>
+        <span class={css.line} data-print>GET /invoices 200 12ms</span>
+        <span class={css.line} data-print>GET /export 200 8ms</span>
+        <span class={css.line} data-print>GET /settings 200 6ms</span>
+        <span class={css.line} data-print><span data-tone="bad">TypeError: customer is undefined</span></span>
+        <span class={css.line} data-print><span class={css.cell} style="--w:4ch"></span><span data-tone="faint">at exportCsv (export.ts:41)</span></span>
+        <span class={css.line} data-print>GET /invoices 200 9ms</span>
+        <span class={css.line} data-print>GET /export 500 2210ms</span>
+        <span class={css.line} data-print>GET /export 200 11ms</span>
+        <span class={css.line} data-print>GET /invoices 200 10ms</span>
+      </div>
+    </div>
+  )
+}
+{
+  is("logs", "after") && (
+    <div class={css.terminal}>
+      <div class={css.termBar}><span class={css.lights}><span class={css.light} /><span class={css.light} /><span class={css.light} /></span>logs</div>
+      <div class={css.termBody}>
+        <span class={css.line} data-print><span class={css.sigil}>❯</span><span data-tone="bright">request_id = "req_7f3c"</span></span>
+        <span class={css.line} data-print>{"{"}</span>
+        <span class={css.line} data-print><span class={css.cell} style="--w:2ch"></span><span data-tone="faint"><span class={css.cell} style="--w:10ch">path</span></span><span data-tone="bright">"/export"</span></span>
+        <span class={css.line} data-print><span class={css.cell} style="--w:2ch"></span><span data-tone="faint"><span class={css.cell} style="--w:10ch">status</span></span><span data-tone="bad">500</span></span>
+        <span class={css.line} data-print><span class={css.cell} style="--w:2ch"></span><span data-tone="faint"><span class={css.cell} style="--w:10ch">user</span></span><span data-tone="bright">"u_812"</span> <span data-tone="faint">pro</span></span>
+        <span class={css.line} data-print><span class={css.cell} style="--w:2ch"></span><span data-tone="faint"><span class={css.cell} style="--w:10ch">invoices</span></span><span data-tone="bright">1204</span></span>
+        <span class={css.line} data-print><span class={css.cell} style="--w:2ch"></span><span data-tone="faint"><span class={css.cell} style="--w:10ch">error</span></span><span data-tone="bad">"customer is undefined"</span></span>
+        <span class={css.line} data-print><span class={css.cell} style="--w:2ch"></span><span data-tone="faint"><span class={css.cell} style="--w:10ch">duration</span></span><span data-tone="bright">2210ms</span></span>
+        <span class={css.line} data-print>{"}"}</span>
+      </div>
+    </div>
+  )
+}
