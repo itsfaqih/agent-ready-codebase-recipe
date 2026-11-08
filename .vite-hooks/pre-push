@@ -1,0 +1,2 @@
+# core.hooksPath points at Vite+, so Git LFS cannot install its own hook; without this the LFS files never reach GitHub.
+git lfs pre-push "$@"

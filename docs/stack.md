@@ -16,7 +16,8 @@ The tools this project uses, chosen with the user during setup. The other docs n
 | App driver for agents | agent-browser |
 | Pull requests | GitHub CLI (`gh`) |
 | Git hooks | Vite+ (`vp config`), in `.vite-hooks/` |
-| Images and video in the repo | Git LFS, tracked by file extension in `.gitattributes` |
+| Images and video in the repo | Git LFS, tracked by file extension in `.gitattributes`; `.vite-hooks/pre-push` runs `git lfs pre-push`, because the Vite+ hooks path replaces the hooks LFS installs |
+| Hosting | Cloudflare Pages project `agent-ready` (itsfaqih account), connected to GitHub: each push to `main` runs `pnpm run build` and publishes `site/dist` to https://agent-ready.itsfaqih.dev; pull requests get preview links |
 | CI | GitHub Actions, with Vite+ set up by `voidzero-dev/setup-vp` |
 
 Rules:
