@@ -38,7 +38,7 @@ export const tile = style({ minWidth: 0 });
 
 export const copy = style({ maxWidth: "30em" });
 
-export const number = style({ font: `12px ${vars.font.mono}`, color: vars.color.muted, letterSpacing: "0.06em" });
+export const label = style({ font: `12px ${vars.font.mono}`, color: vars.color.muted, letterSpacing: "0.06em" });
 
 export const title = style({
   fontSize: 19,

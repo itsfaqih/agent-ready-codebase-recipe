@@ -24,14 +24,12 @@ export const copy = style({
   "@media": { [breakpoint.heroStacked]: { paddingTop: 0 } },
 });
 
-export const number = style({ font: `12px ${vars.font.mono}`, color: vars.color.muted, letterSpacing: "0.06em" });
-
 export const title = style({
   fontSize: 22,
   lineHeight: 1.2,
   letterSpacing: "-0.02em",
   fontWeight: 700,
-  margin: "10px 0 8px",
+  margin: "0 0 8px",
   textWrap: "balance",
 });
 

@@ -66,17 +66,17 @@ export const PROBLEMS: readonly {
 
 export const RUN_STEPS: readonly { readonly label: string; readonly title: string; readonly body: string }[] = [
   {
-    label: "1 · Audit",
+    label: "Audit",
     title: "Mark each area with evidence",
     body: "For each area it proposes a depth of full, light or n/a, and you confirm it. Then it marks each area done, partial or missing and cites the file or command output that shows it.",
   },
   {
-    label: "2 · Fill the gaps",
+    label: "Fill the gaps",
     title: "Add only what's missing",
     body: "It leaves done areas alone, finishes partial ones and builds missing ones. You pick the tool for each job, and it merges existing docs instead of overwriting them.",
   },
   {
-    label: "3 · Audit again",
+    label: "Audit again",
     title: "Stop when nothing changes",
     body: "The run ends when every area that applies is done and the second audit changes no file.",
   },
